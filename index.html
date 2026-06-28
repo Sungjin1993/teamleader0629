@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나는 어떤 팀장인가?</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1A1830;--paper:#FBF9F6;--white:#FFFFFF;--line:rgba(26,24,48,.08);
+  --sub:#7A7895;
+  --p:#7C6FF7;--pl:#EEECFF;--pm:#A99FF5;--pd:#5A52D5;
+  --mint:#3EC9A7;--mintl:#E0F8F2;
+  --peach:#FF8C69;--peachl:#FFF0EB;
+  --lemon:#F5C842;--lemonl:#FFFBE6;
+  --rose:#F06292;--rosel:#FDE8F0;
+  --sky:#5BC4F5;--skyl:#E6F7FF;
+  --hR:#4CAF7D;--hI:#9C6FD6;--hA:#E05C8A;--hS:#2196C4;--hE:#E8A020;--hC:#607D8B;
+  --rsm:12px;--rmd:18px;--rlg:24px;--rxl:32px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:17px}
+body{font-size:17px;font-weight:500;font-family:'Noto Sans KR',sans-serif;font-weight:500;background:var(--paper);color:var(--ink);min-height:100vh;line-height:1.8;overflow-x:hidden}
+.shell{max-width:680px;margin:0 auto;padding:0 1.4rem 8rem}
+
+/* ── BUTTONS ── */
+.btn-p{background:linear-gradient(135deg,var(--p),var(--pd));color:#fff;border:none;border-radius:var(--rmd);padding:17px 38px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .22s;display:inline-flex;align-items:center;gap:10px;box-shadow:0 6px 24px rgba(124,111,247,.35)}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(124,111,247,.4)}
+.btn-p:disabled{background:#C8C4F5;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-mint{background:linear-gradient(135deg,var(--mint),#2BA882);color:#fff;border:none;border-radius:var(--rmd);padding:17px 36px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:10px;transition:all .22s;box-shadow:0 6px 24px rgba(62,201,167,.35)}
+.btn-mint:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(62,201,167,.4)}
+.btn-ghost{background:transparent;border:2px solid var(--line);border-radius:var(--rmd);color:var(--sub);padding:13px 22px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-ghost:hover{border-color:var(--p);color:var(--p)}
+
+.page{display:none}.page.active{display:block}
+
+/* ── INTRO ── */
+.intro-wrap{text-align:center;padding:3.5rem 0 2rem}
+.intro-mascot{margin:0 auto 1.75rem}
+.intro-tag{display:inline-block;background:var(--pl);color:var(--p);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 16px;border-radius:100px;margin-bottom:1.1rem}
+.intro-title{font-family:'Gowun Batang',serif;font-size:clamp(38px,6vw,58px);line-height:1.1;margin-bottom:.9rem;color:var(--p);letter-spacing:-.02em}
+.intro-title .hl{color:var(--p)}
+.intro-desc{font-size:17px;color:var(--sub);max-width:380px;margin:0 auto 1.5rem;line-height:1.9}
+.intro-badge{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1.5px solid var(--line);border-radius:100px;padding:8px 18px;font-size:14px;color:var(--sub);margin-bottom:2rem;box-shadow:0 2px 12px rgba(26,24,48,.05)}
+.input-wrap{background:var(--white);border-radius:var(--rxl);padding:1.75rem;margin-bottom:1.75rem;box-shadow:0 4px 24px rgba(26,24,48,.07);border:1px solid var(--line)}
+.field-row{display:flex;gap:12px;flex-wrap:wrap}
+.field{flex:1;min-width:150px}
+.field label{display:block;font-size:13px;font-weight:700;color:var(--sub);margin-bottom:7px;letter-spacing:.04em}
+.field input{width:100%;background:var(--paper);border:1.5px solid var(--line);border-radius:var(--rsm);padding:13px 16px;font-size:16px;color:var(--ink);font-family:inherit;outline:none;transition:all .2s}
+.field input:focus{border-color:var(--p);background:var(--white);box-shadow:0 0 0 3px rgba(124,111,247,.12)}
+.field input::placeholder{color:var(--sub);opacity:.35}
+
+/* ── QUIZ TOP ── */
+.quiz-top{padding:1.4rem 0 1.75rem}
+.qmeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.qpart{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.qcnt{font-size:13px;color:var(--sub);font-weight:600}
+.prog{height:5px;background:rgba(26,24,48,.07);border-radius:3px;overflow:hidden}
+.prog-bar{height:100%;border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+
+/* ── SECTION BANNER ── */
+.s-banner{border-radius:var(--rxl);padding:1.75rem;margin-bottom:1.75rem}
+.s-label{font-size:13px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.45rem}
+.s-title{font-family:'Gowun Batang',serif;font-size:22px;font-weight:800;color:var(--ink);margin-bottom:.35rem}
+.s-desc{font-size:14px;color:var(--sub);line-height:1.75}
+
+/* ── 체크인 선택 ── */
+.ci-list{display:flex;flex-direction:column;gap:10px;margin-bottom:1.4rem}
+.ci-opt{background:var(--white);border:2px solid var(--line);border-radius:var(--rlg);padding:1.1rem 1.4rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px;box-shadow:0 2px 10px rgba(26,24,48,.04)}
+.ci-opt:hover{border-color:var(--pm);transform:translateX(3px)}
+.ci-opt.sel{border-color:var(--p);background:var(--pl);box-shadow:0 4px 18px rgba(124,111,247,.18)}
+.ci-em{font-size:26px;flex-shrink:0}
+.ci-body strong{display:block;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.ci-body span{font-size:13px;color:var(--sub)}
+.ci-opt.sel .ci-body strong{color:var(--p)}
+
+/* ── Q 카드 ── */
+.q-card{background:var(--white);border-radius:var(--rxl);padding:2.2rem;margin-bottom:1.4rem;box-shadow:0 4px 24px rgba(26,24,48,.08);border:1px solid var(--line)}
+.q-text{font-size:21px;font-weight:700;line-height:1.55;color:var(--ink)}
+
+.choice{background:var(--paper);border:2px solid var(--line);border-radius:var(--rlg);padding:1.15rem 1.4rem;cursor:pointer;transition:all .2s;display:flex;align-items:flex-start;gap:14px}
+.choice:hover{border-color:var(--pm);background:var(--pl)}
+.choice.sel{border-color:var(--p);background:var(--pl);box-shadow:0 3px 14px rgba(124,111,247,.15)}
+.c-num{width:30px;height:30px;border-radius:8px;background:var(--white);border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--sub);flex-shrink:0;margin-top:1px;transition:all .2s}
+.choice.sel .c-num{background:var(--p);border-color:var(--p);color:#fff}
+
+.choice.sel 
+.choices4{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:1.35rem}
+.choice4{background:var(--paper);border:2px solid var(--line);border-radius:var(--rlg);padding:1.1rem 1.25rem;cursor:pointer;transition:all .2s}
+.choice4:hover{border-color:var(--pm);background:var(--pl)}
+.choice4.sel{border-color:var(--p);background:var(--pl);box-shadow:0 3px 14px rgba(124,111,247,.15)}
+.c4-lbl{font-size:11px;font-weight:800;color:var(--sub);margin-bottom:5px;letter-spacing:.06em}
+.choice4.sel .c4-lbl{color:var(--p)}
+.c4-text{font-size:16px;line-height:1.6;color:var(--sub)}
+.choice4.sel .c4-text{color:var(--ink);font-weight:600}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;padding-top:1.6rem;border-top:1.5px solid var(--line);margin-top:.25rem}
+
+/* ── J2 고민카드 ── */
+.worry-grid{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:2.25rem}
+.worry-card{font-size:15px;font-weight:500;padding:10px 18px;border-radius:100px;border:2px solid var(--line);background:var(--white);color:var(--sub);cursor:pointer;transition:all .2s;position:relative;user-select:none;box-shadow:0 2px 8px rgba(26,24,48,.04)}
+.worry-card:hover{border-color:var(--mint);color:var(--ink)}
+.worry-card.on{border-color:var(--mint);background:var(--mintl);color:var(--ink);font-weight:700;box-shadow:0 4px 14px rgba(62,201,167,.2)}
+.worry-card.disabled{opacity:.3;cursor:not-allowed}
+.w-rank{position:absolute;top:-8px;right:-8px;width:22px;height:22px;border-radius:50%;background:var(--mint);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+
+/* ── 결과 ── */
+.word-card{border-radius:var(--rxl);padding:2.25rem;margin-bottom:2.25rem;text-align:center;position:relative;overflow:hidden}
+.word-card::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;opacity:.12}
+.word-icon{font-size:52px;margin-bottom:1rem;display:block}
+.word-title{font-family:'Gowun Batang',serif;font-size:24px;line-height:1.55;color:var(--ink);margin-bottom:.9rem;font-weight:700}
+.word-sub{font-size:16px;color:var(--sub);line-height:1.95;max-width:480px;margin:0 auto}
+.res-hero{text-align:center;padding:1.75rem 0 2rem}
+.type-big-icon{font-size:64px;margin-bottom:1rem;display:block}
+.type-kicker{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem}
+.type-name{font-family:'Gowun Batang',serif;font-size:48px;line-height:1.1;color:var(--ink);margin-bottom:.45rem}
+.type-sub{font-size:26px;font-weight:900;margin-bottom:.85rem}
+.type-badge{display:inline-block;font-size:13px;font-weight:700;padding:5px 16px;border-radius:100px;margin-bottom:1rem}
+.type-desc{font-size:16px;color:var(--sub);max-width:490px;margin:0 auto;line-height:1.95}
+.type-detail{background:var(--white);border-radius:var(--rxl);padding:1.75rem;margin-bottom:1.5rem;box-shadow:0 3px 18px rgba(26,24,48,.07);border:1px solid var(--line)}
+.detail-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.25rem}
+.detail-box{border-radius:var(--rlg);padding:1.3rem}
+.detail-label{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.6rem}
+.detail-list{list-style:none;padding:0}
+.detail-list li{font-size:14px;color:var(--ink);line-height:1.65;padding:.2rem 0 .2rem .9rem;position:relative}
+.detail-list li::before{content:'';position:absolute;left:0;top:.75rem;width:5px;height:5px;border-radius:50%}
+.hex-card{background:var(--white);border-radius:var(--rxl);padding:1.75rem;margin-bottom:1.75rem;display:flex;flex-direction:column;align-items:center;box-shadow:0 3px 18px rgba(26,24,48,.06);border:1px solid var(--line)}
+.hex-caption{font-size:14px;color:var(--sub);text-align:center;margin-top:1rem;line-height:1.7}
+/* 교육 탭 */
+.edu-tabs{display:flex;gap:8px;margin-bottom:1.25rem;background:var(--paper);border-radius:var(--rlg);padding:5px}
+.edu-tab{flex:1;text-align:center;padding:11px 10px;border-radius:var(--rmd);font-size:14px;font-weight:700;cursor:pointer;transition:all .22s;border:none;background:transparent;color:var(--sub);font-family:inherit}
+.edu-tab.act{background:var(--white);color:var(--p);box-shadow:0 3px 14px rgba(26,24,48,.1)}
+.edu-tab-desc{font-size:14px;color:var(--sub);margin-bottom:1.1rem;line-height:1.7;background:var(--pl);border-radius:var(--rmd);padding:.9rem 1.2rem}
+.edu-list{display:flex;flex-direction:column;gap:12px}
+.edu-card{background:var(--white);border:1.5px solid var(--line);border-radius:var(--rlg);padding:1.35rem;display:flex;gap:14px;align-items:flex-start;box-shadow:0 2px 10px rgba(26,24,48,.05);transition:all .2s}
+.edu-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,24,48,.1)}
+.edu-ico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.edu-body .edu-tag{font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px}
+.edu-body .edu-name{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:5px}
+.edu-body .edu-why{font-size:16px;color:var(--sub);line-height:1.65}
+/* 유형맵 */
+.type-mine{background:var(--white);border-radius:var(--rxl);padding:1.75rem;margin-bottom:12px;box-shadow:0 4px 20px rgba(26,24,48,.1);border:2.5px solid}
+.type-others-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:.75rem}
+.type-other{background:var(--white);border:1.5px solid var(--line);border-radius:var(--rmd);padding:.85rem 1rem;opacity:.55}
+.type-other-name{font-size:13px;font-weight:700;color:var(--ink)}
+.type-other-kw{font-size:11px;color:var(--sub);margin-top:2px}
+/* J2 결과 */
+.worry-result{background:var(--white);border-radius:var(--rxl);padding:1.75rem;margin-bottom:12px;border:1.5px solid var(--line);box-shadow:0 2px 12px rgba(26,24,48,.05)}
+.life-rec{border-radius:var(--rxl);padding:1.5rem;margin-bottom:10px;display:flex;gap:16px;align-items:flex-start;border:1.5px solid var(--line);background:var(--white);box-shadow:0 2px 10px rgba(26,24,48,.05);transition:all .2s}
+.life-rec:hover{transform:translateX(3px)}
+.lr-rank{font-family:'Gowun Batang',serif;font-size:30px;color:var(--pm);flex-shrink:0;line-height:1;width:32px}
+.lr-body .lr-tag{font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;margin-bottom:.35rem}
+.lr-body .lr-course{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:.25rem}
+.lr-body .lr-why{font-size:13px;color:var(--sub);line-height:1.65}
+/* 섹션 레이블 */
+.sec-lbl{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:1.1rem;padding-bottom:.6rem;border-bottom:3px solid var(--p);display:inline-block}
+.journey-div{display:flex;align-items:center;gap:14px;margin:2.75rem 0 2.25rem}
+.journey-div-line{flex:1;height:1px;background:var(--line)}
+.journey-div-badge{display:flex;align-items:center;gap:8px;border-radius:100px;padding:8px 20px;font-size:13px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}
+.div-line{height:1px;background:var(--line);margin:2.25rem 0}
+/* admin */
+.adm-gate-w{max-width:380px;margin:3rem auto}
+.adm-gate{background:var(--white);border:1px solid var(--line);border-radius:var(--rxl);padding:2.75rem;text-align:center;box-shadow:0 6px 32px rgba(26,24,48,.1)}
+.adm-gate h3{font-family:'Gowun Batang',serif;font-size:24px;margin:.9rem 0 .45rem}
+.adm-gate p{font-size:15px;color:var(--sub);margin-bottom:1.75rem}
+.adm-pw{width:100%;background:var(--paper);border:1.5px solid var(--line);border-radius:var(--rsm);padding:14px;font-size:17px;color:var(--ink);font-family:inherit;outline:none;text-align:center;letter-spacing:.2em;margin-bottom:14px;transition:border-color .2s}
+.adm-pw:focus{border-color:var(--p)}
+.adm-err{font-size:13px;color:var(--peach);margin-top:8px;display:none}
+.adm-hd{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:2rem}
+.adm-title{font-family:'Gowun Batang',serif;font-size:26px}
+.adm-ctrl{display:flex;gap:8px;flex-wrap:wrap}
+.adm-sel{background:var(--white);border:1.5px solid var(--line);border-radius:var(--rsm);padding:9px 13px;font-size:14px;color:var(--ink);font-family:inherit;outline:none;cursor:pointer}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:2.25rem}
+.kpi{background:var(--white);border:1px solid var(--line);border-radius:var(--rlg);padding:1.25rem;box-shadow:0 2px 10px rgba(26,24,48,.05)}
+.kpi-l{font-size:12px;color:var(--sub);margin-bottom:6px;font-weight:600}
+.kpi-v{font-size:30px;font-weight:800;color:var(--p);line-height:1}
+.kpi-s{font-size:12px;color:var(--sub);margin-top:4px}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:var(--rxl);padding:2rem;margin-bottom:1.75rem;box-shadow:0 2px 12px rgba(26,24,48,.05)}
+.panel-ttl{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:1.4rem;display:flex;align-items:center;gap:10px}
+.panel-ttl::after{content:'';flex:1;height:1px;background:var(--line)}
+.abr{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.abr-lbl{width:88px;font-size:13px;color:var(--sub);text-align:right;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.abr-bg{flex:1;height:18px;background:var(--paper);border-radius:4px;overflow:hidden}
+.abr-fill{height:100%;border-radius:4px;transition:width .8s}
+.abr-v{width:36px;font-size:13px;font-weight:700;flex-shrink:0}
+.tbl-w{overflow-x:auto;border-radius:var(--rlg);border:1.5px solid var(--line)}
+.ptbl{width:100%;border-collapse:collapse;font-size:14px;min-width:680px}
+.ptbl th{font-size:12px;font-weight:700;color:var(--sub);background:var(--paper);padding:11px 13px;text-align:left;border-bottom:1.5px solid var(--line);white-space:nowrap}
+.ptbl td{padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:middle}
+.ptbl tr:last-child td{border-bottom:none}
+.ptbl tr:hover td{background:var(--paper)}
+.gas-n{border-radius:var(--rmd);padding:1.1rem 1.4rem;margin-bottom:1.75rem;font-size:15px;line-height:1.8}
+.gn-ok{background:var(--mintl);border:1px solid rgba(62,201,167,.25);color:#1B9E85}
+.gn-warn{background:var(--lemonl);border:1px solid rgba(245,200,66,.3);color:var(--lemon)}
+.gn-err{background:var(--peachl);border:1px solid rgba(255,140,105,.3);color:var(--peach)}
+.gn-info{background:var(--paper);border:1px solid var(--line);color:var(--sub)}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(16px);background:var(--ink);color:#fff;font-size:14px;padding:12px 24px;border-radius:100px;opacity:0;transition:all .3s;pointer-events:none;z-index:9999;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(124,111,247,.2);border-top-color:var(--p);border-radius:50%;animation:spin .7s linear infinite;margin-right:7px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:520px){
+  .intro-title{font-size:36px}.q-text{font-size:21px}
+  .choices4{grid-template-columns:1fr}.type-others-grid{grid-template-columns:repeat(2,1fr)}
+  .detail-row{grid-template-columns:1fr}.field-row{flex-direction:column}
+}
+
+/* ── intro notice ── */
+.intro-notice{
+  display:flex;align-items:flex-start;gap:14px;
+  max-width:400px;margin:0 auto 2rem;
+  background:linear-gradient(135deg,rgba(91,79,207,.07),rgba(27,158,133,.05));
+  border:1.5px solid rgba(91,79,207,.15);
+  border-radius:18px;padding:1.1rem 1.4rem;
+  text-align:left;
+}
+.intro-notice-icon{
+  font-size:22px;flex-shrink:0;margin-top:2px;
+}
+.intro-notice-text{
+  font-size:15px;color:var(--sub);line-height:1.85;
+}
+.intro-notice-text span{
+  display:block;font-size:17px;font-weight:800;
+  color:var(--ink);margin-bottom:4px;letter-spacing:-.01em;
+}
+/* ── intro 전체 감도 개선 ── */
+.intro-tag{
+  font-size:11px;font-weight:900;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--p);
+  background:var(--pl);border-radius:100px;
+  padding:5px 16px;display:inline-block;margin-bottom:1.1rem;
+}
+.intro-desc{
+  font-size:16px;color:var(--sub);max-width:360px;
+  margin:0 auto 1.4rem;line-height:2;font-weight:400;
+}
+.intro-badge{
+  margin-bottom:1.75rem;
+}
+
+.hero-eng{font-size:14px;color:var(--sub);font-weight:500;letter-spacing:.08em;margin-top:4px;}
+
+
+/* ── 선지 공통 ── */
+.choices{display:flex;flex-direction:column;gap:10px;margin-top:1.35rem}
+.c-label{width:28px;height:28px;border-radius:50%;background:var(--pl);color:var(--p);
+  font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.c-text{font-size:17px;line-height:1.7;color:var(--sub)}
+
+/* ── AB 선지 ── */
+.c-item{display:flex;align-items:flex-start;gap:14px;padding:1rem 1.2rem;
+  background:var(--white);border:1.5px solid var(--line);border-radius:14px;
+  cursor:pointer;transition:all .18s;font-size:16px;line-height:1.6}
+.c-item:hover{border-color:var(--p);background:var(--pl)}
+.c-item.sel{border-color:var(--p);background:var(--pl);font-weight:700}
+.c-item.sel .c-label{background:var(--p);color:#fff}
+.c-item.sel .c-text{color:var(--ink);font-weight:700}
+
+/* ── 6지선다 ── */
+.c6-item{display:flex;align-items:flex-start;gap:14px;padding:.9rem 1.2rem;
+  background:var(--white);border:1.5px solid var(--line);border-radius:14px;
+  cursor:pointer;transition:all .18s;font-size:16px;line-height:1.6}
+.c6-item:hover{border-color:var(--p);background:var(--pl)}
+.c6-item.sel{border-color:var(--p);background:var(--pl);font-weight:700}
+.c6-item.sel .c-label{background:var(--p);color:#fff}
+.c6-item.sel .c-text{color:var(--ink);font-weight:700}
+
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ══════════ INTRO ══════════ -->
+<div class="page active" id="pg-intro">
+  <div class="intro-wrap">
+    <!-- 일러스트 SVG -->
+    <div class="intro-mascot">
+      <svg width="220" height="160" viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#EEECFF"/>
+            <stop offset="100%" stop-color="#E0F8F2"/>
+          </linearGradient>
+        </defs>
+        <!-- 배경 원 -->
+        <circle cx="110" cy="80" r="72" fill="url(#bg1)"/>
+        <!-- 나침반 바깥 원 -->
+        <circle cx="110" cy="80" r="46" fill="white" opacity=".9"/>
+        <circle cx="110" cy="80" r="42" fill="none" stroke="#EEECFF" stroke-width="3"/>
+        <!-- 나침반 눈금 -->
+        <g stroke="#A99FF5" stroke-width="1.5" opacity=".4">
+          <line x1="110" y1="41" x2="110" y2="47"/>
+          <line x1="110" y1="113" x2="110" y2="119"/>
+          <line x1="71" y1="80" x2="77" y2="80"/>
+          <line x1="143" y1="80" x2="149" y2="80"/>
+        </g>
+        <!-- 방향 텍스트 -->
+        <text x="110" y="52" text-anchor="middle" font-size="9" fill="#7C6FF7" font-weight="800" font-family="Arial">N</text>
+        <text x="110" y="116" text-anchor="middle" font-size="9" fill="#A99FF5" font-family="Arial">S</text>
+        <text x="75" y="84" text-anchor="middle" font-size="9" fill="#A99FF5" font-family="Arial">W</text>
+        <text x="145" y="84" text-anchor="middle" font-size="9" fill="#A99FF5" font-family="Arial">E</text>
+        <!-- 나침반 바늘 -->
+        <polygon points="110,52 107,80 110,86 113,80" fill="#7C6FF7"/>
+        <polygon points="110,86 107,80 110,108 113,80" fill="#E0E0F0"/>
+        <!-- 중심 점 -->
+        <circle cx="110" cy="80" r="5" fill="white" stroke="#7C6FF7" stroke-width="2"/>
+        <!-- 장식 별 -->
+        <circle cx="55" cy="35" r="3" fill="#F5C842" opacity=".8"/>
+        <circle cx="168" cy="28" r="2" fill="#3EC9A7" opacity=".7"/>
+        <circle cx="42" cy="110" r="2" fill="#F06292" opacity=".6"/>
+        <circle cx="175" cy="118" r="3" fill="#5BC4F5" opacity=".7"/>
+        <!-- 작은 점선 경로 -->
+        <path d="M 42 130 Q 80 90 110 80 Q 140 70 175 40" stroke="#A99FF5" stroke-width="1.5" stroke-dasharray="4 4" fill="none" opacity=".5"/>
+        <!-- 비행기 -->
+        <g transform="translate(168,35) rotate(-40)">
+          <polygon points="0,-7 5,5 0,2 -5,5" fill="#7C6FF7"/>
+          <polygon points="-6,0 -10,4 -6,2" fill="#A99FF5"/>
+          <polygon points="6,0 10,4 6,2" fill="#A99FF5"/>
+        </g>
+      </svg>
+    </div>
+    <div class="intro-tag">TEAM LEADER</div>
+    <h1 class="intro-title">나는 어떤<br><span class="hl">팀장인가?</span></h1>
+    <p class="intro-desc">Holland 직업성격유형을 토대로<br>팀장 업무 맥락에 맞게 재구성한 Self Test로<br>나의 유형을 발견하고<br>나에게 맞는 교육을 찾아드립니다.</p>
+    <div class="intro-badge">
+      <span>⏱</span><span>약 3분 소요</span>
+      <span style="width:1px;height:14px;background:var(--line);margin:0 4px"></span>
+      <span>🎯</span><span>나를 알고, 교육을 선택하는 도구</span>
+    </div>
+    <div class="intro-notice">
+      <div class="intro-notice-icon">💡</div>
+      <div class="intro-notice-text">
+        <span>정답은 없습니다.</span>
+        깊게 생각하지 말고, 지금 나의 모습에<br>가장 가까운 것을 선택해주세요.
+      </div>
+    </div>
+  </div>
+  <div class="input-wrap">
+    <div class="field-row">
+      <div class="field"><label>이름</label><input id="i-name" type="text" placeholder="홍길동 팀장" required/></div>
+      <div class="field"><label>소속 부서</label><input id="i-dept" type="text" placeholder="영업1팀"/></div>
+    </div>
+  </div>
+  <div style="text-align:center">
+    <button class="btn-p" onclick="startCheckin()" style="font-size:18px;padding:19px 52px">Test 시작 →</button>
+  </div>
+</div>
+
+<!-- ══════════ 체크인 ══════════ -->
+<div class="page" id="pg-checkin">
+  <div class="quiz-top">
+    <div class="qmeta"><span class="qpart" style="color:var(--sub)">체크인</span><span class="qcnt" id="ci-cnt">1 / 2</span></div>
+    <div class="prog"><div class="prog-bar" id="ci-prog" style="width:0%;background:var(--sub)"></div></div>
+  </div>
+  <div id="ci-stage"></div>
+  <div class="q-nav">
+    <button class="btn-ghost" id="ci-back" onclick="ciPrev()" style="visibility:hidden">← 이전</button>
+    <button class="btn-p" id="ci-next" onclick="ciNext()" disabled>다음 →</button>
+  </div>
+</div>
+
+<!-- ══════════ J1 ══════════ -->
+<div class="page" id="pg-j1">
+  <div class="quiz-top">
+    <div class="qmeta"><span class="qpart" style="color:var(--p)">STEP 2</span><span class="qcnt" id="j1-cnt">1 / 18</span></div>
+    <div class="prog"><div class="prog-bar" id="j1-prog" style="width:0%;background:linear-gradient(90deg,var(--p),var(--mint))"></div></div>
+  </div>
+  <div id="j1-stage"></div>
+  <div class="q-nav">
+    <button class="btn-ghost" id="j1-back" onclick="j1Prev()" style="visibility:hidden">← 이전</button>
+    <button class="btn-p" id="j1-next" onclick="j1Next()" disabled>다음 →</button>
+  </div>
+</div>
+
+<!-- ══════════ 결과 ══════════ -->
+<div class="page" id="pg-result">
+
+  <!-- 나를 위한 한마디 -->
+  <div id="r-word"></div>
+
+  <!-- 6유형 맵 — 한마디 바로 아래 -->
+  <div class="sec-lbl" style="margin-bottom:.85rem">6가지 유형 중 나의 위치</div>
+  <div id="r-type-map" style="margin-bottom:2.5rem"></div>
+
+  <!-- 리포트 헤더 -->
+  <div style="text-align:center;padding:1.5rem 0 1.75rem">
+    <span class="type-big-icon" id="r-icon"></span>
+    <div class="type-kicker" id="r-kicker">나는 어떤 유형인가</div>
+    <div class="type-name" id="r-name"></div>
+    <div class="type-sub" id="r-sub"></div>
+    <div class="type-badge" id="r-badge"></div>
+  </div>
+
+  <!-- S1: 임팩트 한 문장 -->
+  <div id="r-impact" style="margin-bottom:2rem"></div>
+
+  <!-- S2: 나의 모습에 가깝습니다 -->
+  <div class="sec-lbl" style="margin-bottom:.85rem">나의 모습에 가깝습니다</div>
+  <div class="type-detail" style="margin-bottom:1.75rem">
+    <div id="r-behaviors"></div>
+  </div>
+
+  <!-- S3: 상황별 인사이트 -->
+  <div class="sec-lbl" style="margin-bottom:.85rem">상황별 인사이트</div>
+  <div id="r-shine" style="margin-bottom:2rem"></div>
+
+  <!-- S4: 흥미 프로파일 -->
+  <div class="sec-lbl" style="margin-bottom:.85rem">흥미 프로파일</div>
+  <div class="hex-card" style="margin-bottom:2rem">
+    <canvas id="hex-cv" width="440" height="390"></canvas>
+    <div class="hex-caption" id="hex-cap"></div>
+  </div>
+
+  <!-- S5: 교육 추천 탭 -->
+  <div class="sec-lbl" style="margin-bottom:.85rem">나를 위한 교육 추천</div>
+  <p style="font-size:15px;color:var(--sub);margin-bottom:1.1rem;line-height:1.8">어떤 방향으로 성장하고 싶은지 선택하면 그에 맞는 교육을 추천해드립니다.</p>
+  <div class="edu-tabs">
+    <button class="edu-tab act" id="tab-str" onclick="switchEdu('strength')">💪 강점을 더 키우고 싶다</button>
+    <button class="edu-tab" id="tab-gap" onclick="switchEdu('gap')">🌱 부족한 부분을 채우고 싶다</button>
+  </div>
+  <div class="edu-tab-desc" id="edu-tab-desc"></div>
+  <div class="edu-list" id="r-edu" style="margin-bottom:2.5rem"></div>
+
+  <!-- 하단 버튼 -->
+  <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding-top:2rem;border-top:1px solid var(--line)">
+    <button class="btn-ghost" onclick="dlTxt()">결과 저장</button>
+    <button class="btn-ghost" onclick="doPrint()">인쇄 / PDF</button>
+    <button class="btn-ghost" onclick="retake()">처음부터</button>
+  </div>
+</div>
+
+<!-- ══════════ 관리자 ══════════ -->
+<div class="page" id="pg-admin">
+  <div id="adm-gate"><div class="adm-gate-w"><div class="adm-gate">
+    <div style="font-size:36px">🔐</div>
+    <h3>관리자 로그인</h3><p>비밀번호를 입력해주세요</p>
+    <input class="adm-pw" id="adm-pw" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')admLogin()"/>
+    <button class="btn-p" style="width:100%;justify-content:center" onclick="admLogin()">로그인</button>
+    <p class="adm-err" id="adm-err">비밀번호가 올바르지 않습니다.</p>
+  </div></div></div>
+  <div id="adm-dash" style="display:none">
+    <div class="adm-hd">
+      <div class="adm-title">관리자 대시보드</div>
+      <div class="adm-ctrl">
+        <button class="btn-ghost" onclick="loadAdmData()" style="font-size:14px;padding:9px 18px">새로고침</button>
+        <button class="btn-ghost" onclick="dlCSV()" style="font-size:14px;padding:9px 18px">CSV 다운로드</button>
+        <select class="adm-sel" id="f-dept" onchange="renderAdm()"><option value="">전체 소속</option></select>
+        <select class="adm-sel" id="f-type" onchange="renderAdm()"><option value="">전체 유형</option></select>
+      </div>
+    </div>
+    <div id="gas-n" class="gas-n gn-info"></div>
+    <div id="kpi-row" class="kpi-row"></div>
+    <div class="panel"><div class="panel-ttl">유형 분포</div><div id="adm-type-chart"></div></div>
+    <div class="panel"><div class="panel-ttl">고민 카테고리 분포</div><div id="adm-cat-chart"></div></div>
+    <div class="panel-ttl" style="margin-bottom:.9rem">팀원별 결과</div>
+    <div class="tbl-w">
+      <table class="ptbl">
+        <thead><tr><th>이름</th><th>소속</th><th>유형</th><th>조직요구</th><th>한마디</th><th>교육방향</th><th>고민TOP</th><th>제출일</th></tr></thead>
+        <tbody id="adm-tbl"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var GAS_URL  = 'https://script.google.com/macros/s/여기에_웹앱_URL/exec';
+var ADMIN_PW = 'admin1234';
+
+/* ══════════════════════════════════════════
+   Holland 6 유형
+══════════════════════════════════════════ */
+var TYPES = [
+  {
+    id:'R', icon:'🔴', name:'현실형', kw:'사물/실행',
+    sub:'현장형 해결사', engName:'Hands-on',
+    color:'#4CAF7D', bg:'#E8F5EE',
+    impact:'함께라면 계획이 반드시 현실이 됩니다.',
+    behaviors:[
+      '도구와 시스템을 직접 다루며 몸으로 익히는 방식이 자연스럽다',
+      '목표가 정해지면 머뭇거리지 않고 바로 실행에 옮긴다',
+      '현장 상황을 누구보다 빠르게 파악하고 즉각 대응한다',
+      '완성되지 않은 계획보다 실행 가능한 다음 한 걸음을 먼저 찾는다'
+    ],
+    shine:'프로젝트가 막혀 있을 때, 데드라인이 촉박할 때, 이론만 무성하고 실행이 없을 때. 당신이 들어오면 팀이 움직이기 시작합니다.',
+    watch:'실행력에 방향성이 더해질수록 더 큰 영향력을 가집니다. 가끔은 "왜 이걸 하는가"를 팀원과 함께 이야기해보세요.',
+    /* 고용24 기반 상세 특성 */
+    traits:{
+      interest:'분명하고 질서정연하며 체계적인 것을 좋아하고, 기존 가치와 신념에 위배되지 않는 선에서 원리 원칙적으로 사고합니다. 전기나 기계, 공학 계열처럼 실제로 규칙적인 행동 양식이 존재하는 분야를 선호합니다.',
+      strength:'사물을 다루고 조작하는 것을 좋아하며 손재주가 있다는 평을 듣습니다. 사회적 영향력이나 창의적인 일보다는 실질적·기계적 일에 강합니다.',
+      personality:'현실적이고 신중한 성격. 겸손하고 솔직하며 자신의 소신을 굽히지 않는 면이 있습니다.',
+      value:'눈에 보이는 성취에 대한 물질적 보상을 중시합니다.'
+    },
+    strengthEdu:[
+      {skillId:'strategy', why:'직접 실행해온 경험이 전략적 사고와 만나면 더 큰 판을 설계할 수 있습니다.'},
+      {skillId:'decision', why:'현장 감각을 바탕으로 한 빠른 의사결정은 당신의 가장 강력한 무기가 됩니다.'},
+      {skillId:'challenge', why:'일단 해보는 당신이 팀에 도전 문화까지 만들 수 있다면 팀의 가능성이 무한해집니다.'}
+    ],
+    gapEdu:[
+      {skillId:'lcomm', why:'실행으로 보여주는 것만큼, 방향을 말로 설명하는 능력이 더해지면 팀이 더 잘 따라옵니다.'},
+      {skillId:'coaching', why:'결과 중심으로 이끌다 보면 팀원이 지칠 수 있습니다. 코칭·피드백으로 팀원 스스로 움직이게 하면 성과가 오래 지속됩니다.'},
+      {skillId:'talent', why:'사람을 이끄는 당신이 인재를 체계적으로 육성하는 능력까지 갖추면 팀의 저력이 달라집니다.'}
+    ]
+  },
+  {
+    id:'I', icon:'🔵', name:'탐구형', kw:'사고/분석',
+    sub:'전략적 브레인', engName:'Analytical',
+    color:'#9C6FD6', bg:'#F3EEF9',
+    impact:'함께라면 팀이 올바른 방향으로 나아갑니다.',
+    behaviors:[
+      '현상을 비판적·분석적으로 관찰하고 체계적·창조적으로 탐구한다',
+      '문제가 생기면 표면이 아닌 뿌리 원인을 파고들어야 직성이 풀린다',
+      '데이터와 근거 없이 쉽게 결론 내리지 않는다',
+      '독립적이고 개방적인 태도로 정보를 수집하고 결론을 도출한다'
+    ],
+    shine:'전략 방향이 불분명할 때, 복잡한 문제를 풀어야 할 때, 경쟁사 대비 차별화가 필요할 때. 당신의 분석이 팀의 나침반이 됩니다.',
+    watch:'완벽한 분석을 기다리다 실행 타이밍을 놓칠 수 있습니다. "충분히 알았다"는 판단을 조금 일찍 내리는 연습이 필요합니다.',
+    traits:{
+      interest:'자연현상이나 사회현상에 대한 탐구 활동에 관심이 많습니다. 규칙적이고 반복적인 활동이나 리더십을 발휘하는 활동은 별로 좋아하지 않습니다.',
+      strength:'학술적 재능이 있다고 평가받습니다. 대인관계 능력보다 분석적·지적 능력이 강점입니다.',
+      personality:'분석적이고 지적인 성격. 합리적이며 독립적으로 사고하고 신중하게 판단합니다.',
+      value:'지식의 개발과 습득, 지적 성취를 중시합니다.'
+    },
+    strengthEdu:[
+      {skillId:'ai', why:'탁월한 분석력에 AI 도구를 더하면 속도와 깊이를 동시에 얻을 수 있습니다.'},
+      {skillId:'datalt', why:'데이터를 읽는 능력을 체계화하면 당신의 분석이 더 설득력 있게 전달됩니다.'},
+      {skillId:'insight', why:'이미 깊이 생각하는 당신이 통찰력을 더 발전시키면 조직 전체의 나침반이 됩니다.'}
+    ],
+    gapEdu:[
+      {skillId:'resolve', why:'분석이 길어지면 실행 타이밍을 놓칠 수 있습니다. 결단력이 분석을 행동으로 옮기는 다리가 됩니다.'},
+      {skillId:'motivate', why:'깊이 있는 분석이 팀원을 움직이려면 동기 부여의 언어가 필요합니다. 통찰을 에너지로 바꿔줍니다.'},
+      {skillId:'vision', why:'분석에 비전이 더해지면 단순한 통찰이 아니라 팀이 따라갈 방향이 됩니다.'}
+    ]
+  },
+  {
+    id:'A', icon:'🟡', name:'예술형', kw:'예술/창조',
+    sub:'감각적 혁신가', engName:'Creative',
+    color:'#E05C8A', bg:'#FAEAF1',
+    impact:'함께라면 팀이 특별해집니다.',
+    behaviors:[
+      '창의적이고 유연한 사고를 즐기며 아름다움을 추구하는 경향이 강하다',
+      '틀에 박힌 패턴을 싫어하고 기존 방식을 그대로 따르지 않는다',
+      '개방적인 사고체계로 변화를 주도하고 자신의 직감에 의존하여 문제를 해결한다',
+      '아이디어 회의에서 가장 엉뚱하고 가장 신선한 제안을 꺼낸다'
+    ],
+    shine:'새로운 시장 진입, 브랜드 리포지셔닝, 침체된 팀에 활력이 필요할 때. 당신의 감각이 팀의 방향을 바꿉니다.',
+    watch:'아이디어는 넘치지만 마무리가 약할 수 있습니다. 시작한 것을 끝내는 사람이 팀에 있어야 당신의 창의가 빛납니다.',
+    traits:{
+      interest:'예술적 창조와 표현, 변화와 다양성을 선호하고 틀에 박힌 것을 싫어합니다. 모호하고 자유롭고 상징적인 활동에 흥미가 있습니다.',
+      strength:'혁신적이고 지적인 재능이 있다고 평가받습니다. 사무적 재능보다 창의적 재능이 강점입니다.',
+      personality:'경험에 개방적인 성격. 남다른 시각으로 세상을 바라보며 창조적인 사람으로 평가받습니다.',
+      value:'아이디어·정서·감정의 창조적 표현을 중시합니다.'
+    },
+    strengthEdu:[
+      {skillId:'culture', why:'타고난 감수성을 더 깊이 발전시키면 팀 문화를 풍요롭게 만드는 리더가 됩니다.'},
+      {skillId:'eq', why:'감도가 높은 당신이 감성 지능까지 체계화하면 팀의 분위기를 의도적으로 만들어갈 수 있습니다.'},
+      {skillId:'trend', why:'트렌드를 읽는 능력이 창의력에 더해지면 시장을 앞서가는 아이디어가 나옵니다.'}
+    ],
+    gapEdu:[
+      {skillId:'planning', why:'창의적 아이디어가 현실이 되려면 기획력이 필요합니다. 구조화하는 능력이 혁신을 완성합니다.'},
+      {skillId:'pnl', why:'좋은 아이디어도 손익이 맞아야 실행됩니다. 재무 감각이 더해지면 창의성이 조직의 언어로 번역됩니다.'},
+      {skillId:'risk', why:'새로운 시도에는 리스크가 따릅니다. 리스크 관리 능력을 갖추면 더 과감하게, 더 안전하게 도전할 수 있습니다.'}
+    ]
+  },
+  {
+    id:'S', icon:'🟢', name:'사회형', kw:'사교/봉사',
+    sub:'육성형 코치', engName:'Supportive',
+    color:'#2196C4', bg:'#E3F2FD',
+    impact:'함께라면 팀원들이 더 오래 함께합니다.',
+    behaviors:[
+      '타인의 문제를 듣고 공감하며 도와주고 치료해주는 것을 선호한다',
+      '팀원의 표정 변화를 누구보다 먼저 알아채고 말을 건다',
+      '갈등이 생기면 양쪽 이야기를 모두 듣고 자연스럽게 중재한다',
+      '일반적으로 이타적이며 자애롭고 배려가 깊은 인물로 평가받는다'
+    ],
+    shine:'팀 분위기가 냉랭할 때, 이직률이 높을 때, 신뢰를 잃은 팀을 다시 세울 때. 당신의 존재가 팀의 온도를 바꿉니다.',
+    watch:'관계를 의식하다 보면 어려운 말을 미루게 됩니다. 필요할 때 분명하게 말하는 것도 팀을 위한 배려입니다.',
+    traits:{
+      interest:'사람들과 교류하고 협력하며 다른 사람에게 사실을 가르쳐주고 지원해주는 활동을 좋아합니다.',
+      strength:'대인관계 능력이 강점입니다. 기계적 능력보다 대인지향적 능력이 있다고 평가받습니다.',
+      personality:'따뜻한 공감 능력과 인내심이 있는 성격. 이해심 많고 사교적이며 이타적인 사람으로 평가받습니다.',
+      value:'타인의 복지와 사회적 서비스 제공을 중시합니다.'
+    },
+    strengthEdu:[
+      {skillId:'coaching', why:'사람을 돕는 것이 자연스러운 당신이 코칭·피드백 스킬을 더하면 팀원 성장을 체계적으로 이끌 수 있습니다.'},
+      {skillId:'talent', why:'사람을 보는 눈을 인재 육성의 체계로 발전시키면 팀 전체가 성장하는 환경을 만들 수 있습니다.'},
+      {skillId:'synergy', why:'협업을 자연스럽게 이끄는 당신이 시너지를 만드는 방법을 체계화하면 팀의 성과가 배가됩니다.'},
+      {skillId:'orgculture', why:'사람을 잘 챙기는 당신이 조직문화를 체계적으로 이해하면 팀의 분위기를 더 의도적으로 만들어갈 수 있습니다.'}
+    ],
+    gapEdu:[
+      {skillId:'decision', why:'관계를 중시하다 보면 어려운 결정을 미루게 됩니다. 의사결정 프레임이 팀원에게 더 명확한 방향을 줍니다.'},
+      {skillId:'resolve', why:'팀원을 배려하다 보면 단호한 결단을 미루기 쉽습니다. 결단력이 오히려 팀원을 더 안심시킵니다.'},
+      {skillId:'conflict', why:'관계를 중시하다 보면 갈등을 피하려는 경향이 생깁니다. 갈등을 직접 관리하는 능력이 더해지면 팀이 더 단단해집니다.'}
+    ]
+  },
+  {
+    id:'E', icon:'🟠', name:'진취형', kw:'권력/리더',
+    sub:'성과주도 리더', engName:'Enterprising',
+    color:'#E8A020', bg:'#FFF8E1',
+    impact:'함께라면 팀이 더 높은 곳을 바라보게 됩니다.',
+    behaviors:[
+      '자신이 기획하고 목표 설정한 것을 실행시키는 데 탁월한 능력을 보인다',
+      '개인과 조직의 목표 달성을 위해 타인에게 영향력을 발휘한다',
+      '다른 사람들을 설득하거나 협상하는 것이 자연스럽고 재미있다',
+      '어려운 상황에서도 팀의 사기를 끌어올리는 말과 행동을 안다'
+    ],
+    shine:'팀이 관성에 빠져 있을 때, 경쟁이 치열해졌을 때, 새로운 목표를 향해 달려야 할 때. 당신의 에너지가 팀의 속도를 바꿉니다.',
+    watch:'속도를 강조하다 보면 팀원이 지칠 수 있습니다. 가끔은 속도보다 팀원의 체력을 먼저 확인하는 것이 더 멀리 가는 방법입니다.',
+    traits:{
+      interest:'조직의 목표와 경제적 이익을 추구하기 위한 활동, 명예·인정·권위에 관련된 일에 흥미가 있습니다.',
+      strength:'경영 및 영업 능력이 강점입니다. 과학적 능력보다 설득력 및 영업 능력이 있다고 평가받습니다.',
+      personality:'대담하고 사교적인 성격. 열정적이고 외향적이며 목표 지향적인 사람으로 평가받습니다.',
+      value:'경제적 성취와 사회적 지위, 사회·사업·정치 영역에서의 권력 획득을 중시합니다.'
+    },
+    strengthEdu:[
+      {skillId:'vision', why:'강한 추진력에 명확한 비전이 더해지면 팀원이 이끌리는 것이 아니라 따르고 싶어집니다.'},
+      {skillId:'negot', why:'이미 설득력이 강한 당신이 협상 기술을 체계화하면 더 큰 딜을 성사시킬 수 있습니다.'},
+      {skillId:'motivate', why:'목표를 제시하는 것을 넘어 팀원 스스로 달리게 만드는 동기 부여 능력이 추진력을 배가시킵니다.'},
+      {skillId:'global', why:'추진력 있는 당신이 글로벌 감각까지 갖추면 더 넓은 무대에서 영향력을 발휘할 수 있습니다.'}
+    ],
+    gapEdu:[
+      {skillId:'datalt', why:'직감과 추진력만큼, 데이터로 뒷받침하는 습관이 더해지면 더 정확한 방향으로 달릴 수 있습니다.'},
+      {skillId:'present', why:'강한 추진력을 설득력 있게 전달할 수 있다면 더 많은 사람이 따라옵니다. 프레젠테이션 능력이 영향력을 배가시킵니다.'},
+      {skillId:'delegate', why:'모든 것을 직접 이끌려다 보면 번아웃이 옵니다. 권한 위임이 팀의 역량을 키우고 당신도 더 큰 일에 집중할 수 있게 합니다.'}
+    ]
+  },
+  {
+    id:'C', icon:'⚫', name:'관습형', kw:'질서/사무',
+    sub:'체계적 관리자', engName:'Conventional',
+    color:'#607D8B', bg:'#ECEFF1',
+    impact:'함께라면 어떤 상황에서도 팀이 흔들리지 않습니다.',
+    behaviors:[
+      '조직적이고 체계적이며 규칙과 시스템이 잡혀 있는 일을 좋아한다',
+      '일을 시작하기 전에 기준과 체크리스트를 먼저 만든다',
+      '서류 작성 및 기록 등 사무적인 일에서 능력을 발휘한다',
+      '리스크를 사전에 파악하고 대비책을 준비해두는 편이다'
+    ],
+    shine:'빠른 성장으로 시스템이 엉켜 있을 때, 품질 이슈가 반복될 때, 팀 운영을 안정화해야 할 때. 당신의 체계가 팀의 신뢰를 만듭니다.',
+    watch:'완벽한 준비를 추구하다 보면 변화에 늦게 반응할 수 있습니다. 때로는 80점짜리 계획을 지금 실행하는 것이 더 나은 선택일 수 있습니다.',
+    traits:{
+      interest:'정해진 원칙과 계획에 따라 자료를 기록·정리·조직하는 일을 좋아하고 체계적인 작업 환경에서 사무적·계산적 능력을 발휘하는 활동에 흥미가 있습니다.',
+      strength:'비즈니스 실무 능력이 강점입니다. 예술적 재능보다 비즈니스 실무 능력이 있다고 평가받습니다.',
+      personality:'현실적이고 성실한 성격. 규율을 중시하고 체계적으로 일을 처리하는 사람으로 평가받습니다.',
+      value:'금전적 성취와 사회·사업·정치 영역에서의 권력 획득을 중시합니다.'
+    },
+    strengthEdu:[
+      {skillId:'risk', why:'체계적인 당신의 리스크 예측 능력을 더 발전시키면 어떤 상황에서도 팀을 안전하게 지킬 수 있습니다.'},
+      {skillId:'pnl', why:'꼼꼼한 당신이 손익 관리 능력까지 갖추면 팀 운영의 완성도가 한층 높아집니다.'},
+      {skillId:'priority', why:'이미 체계적인 당신이 우선순위 설정 능력까지 더하면 팀의 집중력이 극대화됩니다.'},
+      {skillId:'change', why:'안정적 운영을 잘하는 당신이 변화 관리까지 익히면 어떤 환경에서도 팀을 이끌 수 있습니다.'}
+    ],
+    gapEdu:[
+      {skillId:'trend', why:'안정적으로 운영하는 동안 시장은 변하고 있습니다. 트렌드 감각이 변화를 기회로 읽는 눈을 만들어줍니다.'},
+      {skillId:'challenge', why:'체계를 중시하다 보면 새로운 시도가 조심스러워집니다. 도전을 장려하는 태도가 팀에 활력을 불어넣습니다.'},
+      {skillId:'culture', why:'규칙이 강한 환경에서 팀원이 위축될 수 있습니다. 문화예술 감각이 팀에 유연함과 감도를 더합니다.'}
+    ]
+  }
+];
+
+var SKILLS = [
+  {id:'culture',    name:'문화예술',          icon:'🎨', color:'#B83B6E', bg:'#FAEAF1', course:'문화예술 인문학 과정'},
+  {id:'eq',         name:'감도개선',          icon:'✨', color:'#1B9E85', bg:'#E0F5F0', course:'감성 지능(EQ) 강화 과정'},
+  {id:'global',     name:'글로벌어학',        icon:'🌐', color:'#C85D3B', bg:'#FAEEE8', course:'비즈니스 글로벌 어학 과정'},
+  {id:'trend',      name:'트렌드이해',        icon:'📡', color:'#8B4F9E', bg:'#F5EEF9', course:'트렌드 리딩 과정'},
+  {id:'ai',         name:'AI활용',            icon:'🤖', color:'#2272C3', bg:'#E8F1FB', course:'AI 활용 워크숍'},
+  {id:'negot',      name:'협상',              icon:'🤝', color:'#1B7A4A', bg:'#E8F5EE', course:'협상 실전 과정'},
+  {id:'pnl',        name:'손익관리',          icon:'📊', color:'#C8860A', bg:'#FEF6E4', course:'손익 관리 과정'},
+  {id:'planning',   name:'기획',              icon:'📐', color:'#7B5EA7', bg:'#F3EEF9', course:'전략 기획력 과정'},
+  {id:'coaching',   name:'코칭·피드백',        icon:'🎯', color:'#5B4FCF', bg:'#EAE7FF', course:'코칭·피드백 스킬 과정'},
+  {id:'decision',   name:'의사결정',          icon:'⚖️', color:'#2E6B4F', bg:'#E5F3ED', course:'의사결정 프레임워크 과정'},
+  {id:'risk',       name:'리스크관리',        icon:'🛡️', color:'#9A4F3B', bg:'#FBEDE6', course:'리스크 관리 과정'},
+  {id:'insight',    name:'통찰력',            icon:'🔭', color:'#4A5568', bg:'#EDF2F7', course:'비즈니스 인사이트 과정'},
+  {id:'resolve',    name:'결단력',            icon:'⚡', color:'#C05621', bg:'#FEEBC8', course:'리더의 결단력 과정'},
+  {id:'vision',     name:'비전 제시',          icon:'🌟', color:'#6B46C1', bg:'#FAF5FF', course:'비전 수립과 방향 설정 과정'},
+  {id:'talent',     name:'인재 육성',          icon:'🌱', color:'#276749', bg:'#F0FFF4', course:'인재 육성과 성장 지원 과정'},
+  {id:'delegate',   name:'권한 위임',          icon:'🔑', color:'#2B6CB0', bg:'#EBF8FF', course:'권한 위임과 임파워먼트 과정'},
+  {id:'motivate',   name:'동기 부여',          icon:'🔥', color:'#C53030', bg:'#FFF5F5', course:'팀 동기 부여와 몰입 과정'},
+  {id:'lcomm',      name:'리더 커뮤니케이션',  icon:'💬', color:'#2C7A7B', bg:'#E6FFFA', course:'리더십 커뮤니케이션 과정'},
+  {id:'challenge',  name:'도전 장려',          icon:'🚀', color:'#744210', bg:'#FFFFF0', course:'도전 문화 만들기 과정'},
+  {id:'strategy',   name:'전략적 사고',        icon:'♟️', color:'#1A365D', bg:'#EBF8FF', course:'전략적 사고력 과정'},
+  {id:'synergy',    name:'협업과 시너지',      icon:'🤲', color:'#285E61', bg:'#E6FFFA', course:'협업과 시너지 창출 과정'},
+  {id:'change',     name:'변화 관리',          icon:'🔄', color:'#553C9A', bg:'#FAF5FF', course:'변화 관리와 조직 적응 과정'},
+  {id:'conflict',   name:'갈등 관리',          icon:'🕊️', color:'#2D3748', bg:'#F7FAFC', course:'갈등 관리와 중재 과정'},
+  {id:'datalt',     name:'데이터 리터러시(DL)', icon:'📈', color:'#2B6CB0', bg:'#EBF8FF', course:'데이터 리터러시(DL) 과정'},
+  {id:'present',    name:'프레젠테이션',       icon:'🎤', color:'#702459', bg:'#FFF5F7', course:'임팩트 프레젠테이션 과정'},
+  {id:'priority',   name:'시간과 우선순위',    icon:'⏰', color:'#744210', bg:'#FFFFF0', course:'시간 관리와 우선순위 설정 과정'},
+  {id:'orgculture', name:'조직문화 이해',      icon:'🏛️', color:'#44337A', bg:'#FAF5FF', course:'조직문화 이해와 변화 과정'},
+
+]
+var CHECKIN = [
+  {
+    q:'요즘 우리 팀/조직에서 내가 가장 많이 요구받는 모습은?',
+    opts:[
+      {icon:'⚡', label:'직접 실행해서 결과를 만드는 팀장', typeId:'R'},
+      {icon:'🔍', label:'분석하고 전략적으로 방향을 제시하는 팀장', typeId:'I'},
+      {icon:'💡', label:'새로운 아이디어와 창의로 차별화하는 팀장', typeId:'A'},
+      {icon:'🤝', label:'사람을 연결하고 팀을 하나로 만드는 팀장', typeId:'S'},
+      {icon:'🏆', label:'목표를 설정하고 강하게 추진하는 팀장', typeId:'E'},
+      {icon:'📋', label:'체계와 기준으로 안정되게 운영하는 팀장', typeId:'C'}
+    ]
+  },
+  {
+    q:'최근 6개월간 내가 가장 많은 시간을 쏟은 업무는?',
+    opts:[
+      {icon:'🔧', label:'현장 실무 직접 처리 및 즉각적 문제 해결', typeId:'R'},
+      {icon:'📊', label:'데이터 분석, 리서치, 전략 수립', typeId:'I'},
+      {icon:'💡', label:'기획, 아이디어 발굴, 콘텐츠 개발', typeId:'A'},
+      {icon:'👥', label:'팀원 면담, 조직 관리, 관계 소통', typeId:'S'},
+      {icon:'📈', label:'목표 설정, KPI 관리, 경영진 보고', typeId:'E'},
+      {icon:'🗂️', label:'프로세스 정비, 품질 관리, 문서·기준 수립', typeId:'C'}
+    ]
+  }
+];
+
+/* ══ Journey 1 — 18문항 (Holland RIASEC 이론 기반, 팀장 맥락 재구성, 순서 섞임) ══
+   순서: R,I,A,S,E,C 인터리빙 → 어떤 유형 측정인지 티 안 남
+   type: AB or MULTI4
+   MULTI4 B·C = 인접유형 +1점
+══════════════════════════════════════════════════════════════════════════════ */
+var J1Q = [
+  {holland:'R',type:'AB',text:'팀에 큰 행사나 프로젝트가 있을 때 나는 어느 쪽에 가깝습니까?',choices:[
+    {text:'직접 현장에서 통솔하고 움직이는 것이 더 편하다.',score:2},
+    {text:'전체 기획과 흐름을 설계하고 팀원에게 위임하는 것이 더 편하다.',score:0}
+  ]},
+  {holland:'S',type:'AB',text:'팀원과 티타임에서 나는?',choices:[
+    {text:'팀원 개개인의 이야기에 집중하고 일상적인 대화를 나눈다.',score:2},
+    {text:'업무에 대해 자유롭고 캐주얼하게 이야기하는 시간을 가진다.',score:0}
+  ]},
+  {holland:'I',type:'AB',text:'팀에서 예상치 못한 문제가 생겼을 때 나는?',choices:[
+    {text:'문제의 원인을 파고든다.',score:2},
+    {text:'즉시 수습에 나선다.',score:0}
+  ]},
+  {holland:'ALL',type:'MULTI6',text:'팀 성과가 기대보다 낮을 때 나는?',choices:[
+    {label:'A',text:'현장에 나가 직접 상황을 확인하고 손발을 움직인다',holland:'R',score:2},
+    {label:'B',text:'지표와 데이터를 보며 원인을 논리적으로 분석한다',holland:'I',score:2},
+    {label:'C',text:'팀의 분위기를 환기하고 새로운 방식을 시도한다',holland:'A',score:2},
+    {label:'D',text:'팀원 개개인과 이야기하며 무엇이 힘든지 듣는다',holland:'S',score:2},
+    {label:'E',text:'목표를 재설정하고 팀의 의지를 다시 불태운다',holland:'E',score:2},
+    {label:'F',text:'업무 구조와 역할 분담을 다시 정리한다',holland:'C',score:2}
+  ]},
+  {holland:'A',type:'AB',text:'신규 업무를 수립할 때 나는?',choices:[
+    {text:'창조적인 시도를 한다.',score:2},
+    {text:'이미 검증된 사례를 수집해서 알맞게 운영한다.',score:0}
+  ]},
+  {holland:'ALL',type:'MULTI6',text:'팀원이 자기 방식대로 일했는데 목표한 성과를 이루었다면?',choices:[
+    {label:'A',text:'직접 그 방식을 따라해보고 효과를 확인한다',holland:'R',score:2},
+    {label:'B',text:'왜 그 방식이 효과적이었는지 분석해본다',holland:'I',score:2},
+    {label:'C',text:'더 창의적인 방식이 나왔다는 점이 흥미롭다',holland:'A',score:2},
+    {label:'D',text:'팀 전체에 공유해서 함께 적용할지 논의한다',holland:'S',score:2},
+    {label:'E',text:'목표를 달성했으니 그걸로 됐다',holland:'E',score:2},
+    {label:'F',text:'칭찬은 하되 합의한 방식대로 맞춰줄 것을 요청한다',holland:'C',score:2}
+  ]},
+  {holland:'ALL',type:'MULTI6',text:'팀에서 의견이 엇갈릴 때 나는?',choices:[
+    {label:'A',text:'실제로 해보고 결과로 판단한다',holland:'R',score:2},
+    {label:'B',text:'각자의 주장 뒤에 있는 근거와 논리를 먼저 따져본다',holland:'I',score:2},
+    {label:'C',text:'새로운 시각으로 접근할 방법을 찾는다',holland:'A',score:2},
+    {label:'D',text:'팀원들 간의 관계와 분위기를 먼저 살핀다',holland:'S',score:2},
+    {label:'E',text:'내 판단을 제시하고 방향을 이끈다',holland:'E',score:2},
+    {label:'F',text:'원칙이나 기준에 따라 결론을 잡는다',holland:'C',score:2}
+  ]},
+  {holland:'ALL',type:'MULTI6',text:'새로운 장비나 툴을 접했을 때 나는?',choices:[
+    {label:'A',text:'일단 직접 써보면서 익힌다',holland:'R',score:2},
+    {label:'B',text:'어떤 원리로 작동하는지 먼저 파악한다',holland:'I',score:2},
+    {label:'C',text:'어떻게 하면 더 창의적으로 활용할지 생각한다',holland:'A',score:2},
+    {label:'D',text:'잘 쓰는 사람에게 물어보고 배운다',holland:'S',score:2},
+    {label:'E',text:'어떻게 활용해서 성과를 낼지 먼저 생각한다',holland:'E',score:2},
+    {label:'F',text:'설명서부터 차근차근 읽는다',holland:'C',score:2}
+  ]},
+  {holland:'C',type:'AB',text:'내가 더 하고 싶은 업무는?',choices:[
+    {text:'안정적이고 예측 가능한 업무.',score:2},
+    {text:'낯설지만 새로운 업무.',score:0}
+  ]},
+  {holland:'A',type:'AB',text:'휴무 때 하고 싶은 활동은?',choices:[
+    {text:'미술관, 음악회 등 문화 활동.',score:2},
+    {text:'신기술 박람회 등 실용적인 활동.',score:0}
+  ]},
+  {holland:'ALL',type:'MULTI6',text:'팀원 중 한 명이 업무 의욕을 잃었을 때 나는?',choices:[
+    {label:'A',text:'함께 현장을 뛰며 활력을 되찾도록 한다',holland:'R',score:2},
+    {label:'B',text:'원인을 파악하고 구조적 해결책을 찾는다',holland:'I',score:2},
+    {label:'C',text:'업무 방식을 새롭게 바꿔볼 것을 제안한다',holland:'A',score:2},
+    {label:'D',text:'시간을 내어 상담을 자처한다',holland:'S',score:2},
+    {label:'E',text:'새로운 도전 목표를 제시해 동기를 불어넣는다',holland:'E',score:2},
+    {label:'F',text:'역할과 업무 범위를 다시 명확히 정리해준다',holland:'C',score:2}
+  ]},
+  {holland:'E',type:'AB',text:'다른 부서와 의견이 다를 때 나는?',choices:[
+    {text:'우리 팀의 입장을 명확히 제시하고 설득한다.',score:2},
+    {text:'상대의 입장을 파악하며 접점을 찾는다.',score:0}
+  ]},
+  {holland:'ALL',type:'MULTI6',text:'고객을 대상으로 하는 프로젝트를 검토할 때 나는?',choices:[
+    {label:'A',text:'실행 가능성과 현장 적용 여부를 본다',holland:'R',score:2},
+    {label:'B',text:'고객 반응 데이터와 논리적 흐름을 본다',holland:'I',score:2},
+    {label:'C',text:'심미성, 표현, 오타를 본다',holland:'A',score:2},
+    {label:'D',text:'팀원들의 의견과 공감대를 본다',holland:'S',score:2},
+    {label:'E',text:'목표 달성과 성과 지표를 본다',holland:'E',score:2},
+    {label:'F',text:'손익과 실현 가능성을 본다',holland:'C',score:2}
+  ]},
+  {holland:'C',type:'AB',text:'새로운 팀을 맡게 되었을 때 나는?',choices:[
+    {text:'히스토리와 세부 내용을 빠짐없이 문서로 정리한다.',score:2},
+    {text:'현장을 돌며 핵심 사항을 빠르게 훑는다.',score:0}
+  ]},
+  {holland:'R',type:'AB',text:'팀원들과 유대감이 더 쌓인다고 느끼는 때는?',choices:[
+    {text:'현장에서 같이 몸을 쓰는 일을 할 때.',score:2},
+    {text:'당면한 문제를 같이 해결하려고 할 때.',score:0}
+  ]},
+  {holland:'S',type:'AB',text:'내게 더 보람찬 상황은?',choices:[
+    {text:'팀 내 소통이 잘 되고 팀워크가 좋을 때.',score:2},
+    {text:'정한 목표 하에 팀 업무가 착착 진행될 때.',score:0}
+  ]},
+  {holland:'E',type:'AB',text:'새 프로젝트를 시작할 때 나는?',choices:[
+    {text:'목표와 성과 기준부터 명확히 잡는다.',score:2},
+    {text:'팀원들의 이야기를 종합하여 공감대를 형성한다.',score:0}
+  ]},
+  {holland:'I',type:'AB',text:'중요한 결정을 앞두고 나는?',choices:[
+    {text:'관련 자료와 근거를 최대한 검토한 후에 결정한다.',score:2},
+    {text:'큰 방향이 맞다고 판단되면 빠르게 결정하고 실행한다.',score:0}
+  ]}
+];
+
+/* ══ 체크인 2문항 ══ */
+var CHECKIN = [
+  {
+    q:'요즘 우리 팀/조직에서 내가 가장 많이 요구받는 모습은?',
+    opts:[
+      {icon:'⚡', label:'직접 실행해서 결과를 만드는 팀장', typeId:'R'},
+      {icon:'🔍', label:'분석하고 전략적으로 방향을 제시하는 팀장', typeId:'I'},
+      {icon:'💡', label:'새로운 아이디어와 창의로 차별화하는 팀장', typeId:'A'},
+      {icon:'🤝', label:'사람을 연결하고 팀을 하나로 만드는 팀장', typeId:'S'},
+      {icon:'🏆', label:'목표를 설정하고 강하게 추진하는 팀장', typeId:'E'},
+      {icon:'📋', label:'체계와 기준으로 안정되게 운영하는 팀장', typeId:'C'}
+    ]
+  },
+  {
+    q:'최근 6개월간 내가 가장 많은 시간을 쏟은 업무는?',
+    opts:[
+      {icon:'🔧', label:'현장 실무 직접 처리 및 즉각적 문제 해결', typeId:'R'},
+      {icon:'📊', label:'데이터 분석, 리서치, 전략 수립', typeId:'I'},
+      {icon:'💡', label:'기획, 아이디어 발굴, 콘텐츠 개발', typeId:'A'},
+      {icon:'👥', label:'팀원 면담, 조직 관리, 관계 소통', typeId:'S'},
+      {icon:'📈', label:'목표 설정, KPI 관리, 경영진 보고', typeId:'E'},
+      {icon:'🗂️', label:'프로세스 정비, 품질 관리, 문서·기준 수립', typeId:'C'}
+    ]
+  }
+];
+
+/* ══ STATE ══ */
+var userName='',userDept='';
+var ciAnswers=[null,null];var ciCur=0;
+var j1Scores={R:0,I:0,A:0,S:0,E:0,C:0};
+var j1Answers=[];var j1Cur=0;
+var worryRanks=[];
+var finalType=null;var finalWord=null;
+var eduMode='strength';
+var allData=[];
+
+function initState(){
+  ciAnswers=[null,null];
+  j1Scores={R:0,I:0,A:0,S:0,E:0,C:0};
+  j1Answers=new Array(J1Q.length).fill(null);
+  worryRanks=[];
+}
+initState();
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('pg-'+id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function checkAdmin(){
+  if(window.location.search.indexOf('admin=true')>=0){
+    showPage('admin');
+    if(authed) loadAdmData();
+    return true;
+  }
+  return false;
+}
+window.addEventListener('load',function(){checkAdmin();});
+
+/* ══ 체크인 ══ */
+function escHtml(str){
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
+}
+function startCheckin(){
+  userName=escHtml(document.getElementById('i-name').value.trim()||'익명');
+  userDept=escHtml(document.getElementById('i-dept').value.trim()||'미입력');
+  initState();ciCur=0;renderCI(0);showPage('checkin');
+}
+function renderCI(idx){
+  var q=CHECKIN[idx];
+  document.getElementById('ci-cnt').textContent=(idx+1)+' / 2';
+  document.getElementById('ci-prog').style.width=((idx+1)/2*100)+'%';
+  var banner=idx===0?
+    '<div class="s-banner" style="background:linear-gradient(135deg,#F5F4FF,#EEECFF);border:1.5px solid rgba(124,111,247,.18)">'+
+    '<div class="s-label" style="color:var(--p)">STEP 1 — 조직 맥락 파악</div>'+
+    '<div class="s-title">지금 나에게 요구되는 역할을 먼저 확인합니다</div>'+
+    '<div class="s-desc">진짜 나를 찾기 전, 조직 맥락을 파악합니다. 2문항이면 충분합니다.</div></div>':'';
+  var optsHTML='';
+  for(var i=0;i<q.opts.length;i++){
+    var o=q.opts[i];var curVal=o.typeId;var sel=(ciAnswers[idx]===curVal)?'sel':'';
+    optsHTML+='<div class="ci-opt '+sel+'" onclick="ciSel('+idx+',' + "'"+curVal+"'"+')">'+
+      '<div class="ci-em">'+o.icon+'</div>'+
+      '<div class="ci-body"><strong>'+o.label+'</strong></div></div>';
+  }
+  document.getElementById('ci-stage').innerHTML=banner+
+    '<div class="q-card"><div class="q-text">'+q.q+'</div>'+
+    '<div class="ci-list">'+optsHTML+'</div></div>';
+  document.getElementById('ci-back').style.visibility=idx===0?'hidden':'visible';
+  var nb=document.getElementById('ci-next');
+  nb.disabled=ciAnswers[idx]===null;
+  nb.textContent=idx===1?'Test 시작 →':'다음 →';
+}
+function ciSel(idx,val){
+  ciAnswers[idx]=val;
+  var opts=document.querySelectorAll('.ci-opt');
+  var q=CHECKIN[idx];
+  for(var i=0;i<opts.length;i++){
+    opts[i].classList.toggle('sel',q.opts[i].typeId===val);
+  }
+  document.getElementById('ci-next').disabled=false;
+}
+function ciPrev(){if(ciCur>0){ciCur--;renderCI(ciCur);}}
+function ciNext(){
+  if(ciAnswers[ciCur]===null) return;
+  if(ciCur===1){startJ1();return;}
+  ciCur++;renderCI(ciCur);
+}
+
+/* ══ Journey 1 ══ */
+function startJ1(){j1Cur=0;renderJ1(0);showPage('j1');}
+function renderJ1(n){
+  j1Cur=n;
+  var q=J1Q[n];
+  var pct=Math.round((n/J1Q.length)*100);
+  document.getElementById('j1-prog').style.width=pct+'%';
+  document.getElementById('j1-cnt').textContent=(n+1)+' / '+J1Q.length;
+  document.getElementById('j1-next').disabled=(j1Answers[n]===null||j1Answers[n]===undefined);
+  document.getElementById('j1-back').style.visibility=n===0?'hidden':'visible';
+
+  var stage=document.getElementById('j1-stage');
+  stage.innerHTML='';
+
+  var qtxt=document.createElement('div');
+  qtxt.className='q-text';
+  qtxt.textContent=q.text;
+  stage.appendChild(qtxt);
+
+  var wrap=document.createElement('div');
+  wrap.className='choices';
+
+  var labels6=['A','B','C','D','E','F'];
+
+  q.choices.forEach(function(ch,i){
+    var div=document.createElement('div');
+    div.className=(q.type==='AB'?'c-item':'c6-item')+(j1Answers[n]===i?' sel':'');
+    div.setAttribute('data-idx',i);
+    div.addEventListener('click',(function(idx){
+      return function(){j1Sel(n,idx);};
+    })(i));
+
+    var lbl=document.createElement('span');
+    lbl.className='c-label';
+    lbl.textContent=q.type==='AB'?(i===0?'A':'B'):labels6[i];
+
+    var txt=document.createElement('span');
+    txt.className='c-text';
+    txt.textContent=ch.text;
+
+    div.appendChild(lbl);
+    div.appendChild(txt);
+    wrap.appendChild(div);
+  });
+
+  stage.appendChild(wrap);
+}
+
+function j1Sel(ci,n){
+  /* ci: 문항 인덱스, n: 선택한 선지 인덱스 */
+  j1Answers[ci]=n;
+  j1Cur=ci;
+  var items=document.querySelectorAll('#j1-stage .c-item, #j1-stage .c4-item, #j1-stage .c6-item');
+  items.forEach(function(el){el.classList.remove('sel');});
+  var sel=document.querySelector('#j1-stage [data-idx="'+n+'"]');
+  if(sel) sel.classList.add('sel');
+  document.getElementById('j1-next').disabled=false;
+}
+function j1Prev(){
+  if(j1Cur>0){j1Cur--;renderJ1(j1Cur);}
+}
+function j1Next(){
+  if(j1Answers[j1Cur]===null) return;
+  if(j1Cur===J1Q.length-1){goResult();return;}
+  j1Cur++;renderJ1(j1Cur);
+}
+
+/* ══ 나를 위한 한마디 ══ */
+function getWordMsg(orgTypeId, doTypeId, myTypeId) {
+  /* orgTypeId: 조직이 기대하는 역할 (Q1)
+     doTypeId:  내가 실제 시간을 쏟는 업무 (Q2)
+     myTypeId:  진짜 나의 유형 (STEP2 결과)
+     세 가지를 조합해 36가지+ 메시지 생성 */
+
+  var tName={R:'현실형',I:'탐구형',A:'예술형',S:'사회형',E:'진취형',C:'관습형'};
+  var tNick={R:'현장형 해결사',I:'전략적 브레인',A:'감각적 혁신가',
+             S:'육성형 코치',E:'성과주도 리더',C:'체계적 관리자'};
+
+  /* ── 패턴 분류 ── */
+  var allMatch  = (orgTypeId===myTypeId && doTypeId===myTypeId);
+  var orgMatch  = (orgTypeId===myTypeId && doTypeId!==myTypeId);
+  var doMatch   = (doTypeId===myTypeId  && orgTypeId!==myTypeId);
+  var noneMatch = (!allMatch && !orgMatch && !doMatch);
+
+  /* ── 기본 메시지 (org×my 36가지) ── */
+  var BASE = {
+    'R_R':{icon:'🌿',title:'지금 하는 일이 나답습니다.',sub:'실행으로 결과를 만드는 것, 그게 당신의 본모습입니다. 조직이 원하는 모습과 당신이 에너지를 얻는 방식이 딱 맞아떨어집니다.'},
+    'I_I':{icon:'🌿',title:'깊이 생각하는 당신, 그게 맞습니다.',sub:'분석하고 탐구하며 방향을 잡는 것, 조직이 원하는 것과 당신이 자연스럽게 하는 것이 일치합니다.'},
+    'A_A':{icon:'🌿',title:'감각과 창의, 그게 당신의 힘입니다.',sub:'새로운 방식을 찾고 팀에 색깔을 입히는 것, 조직이 원하는 것과 당신의 에너지가 맞닿아 있습니다.'},
+    'S_S':{icon:'🌿',title:'사람을 보는 눈, 그게 강점입니다.',sub:'팀을 하나로 묶고 신뢰를 쌓는 것, 조직이 원하는 모습과 당신의 본모습이 일치합니다.'},
+    'E_E':{icon:'🌿',title:'추진력이 방향과 맞습니다.',sub:'목표를 향해 달리는 것, 조직이 원하는 에너지와 당신이 자연스럽게 발휘하는 힘이 정확히 일치합니다.'},
+    'C_C':{icon:'🌿',title:'체계를 지키는 당신이 팀의 기반입니다.',sub:'빈틈없이 운영하는 것, 조직이 원하는 모습과 당신의 본모습이 일치합니다.'},
+    'R_I':{icon:'🕯️',title:'빠름을 요구받으면서도 이해하려 했던 당신.',sub:'조직은 빠른 실행을 원했지만, 당신은 먼저 이해해야 제대로 움직이는 사람입니다.'},
+    'R_A':{icon:'🕯️',title:'완성을 요구받으면서 더 나은 방법을 찾고 싶었던 당신.',sub:'조직은 결과를 원했지만, 당신 안에는 더 좋은 방식을 찾으려는 본능이 있습니다.'},
+    'R_S':{icon:'🕯️',title:'결과를 요구받으면서도 사람을 먼저 챙긴 당신.',sub:'조직은 빠른 실행을 원했지만, 당신은 팀원을 살피며 버텨왔습니다.'},
+    'R_E':{icon:'🕯️',title:'실행을 요구받았지만 더 높이 바라보고 있었습니다.',sub:'조직은 현장 실행을 원했지만, 당신은 목표를 향해 팀을 이끌고 싶은 사람입니다.'},
+    'R_C':{icon:'🕯️',title:'직접 하라는 요구 속에서 체계를 먼저 찾은 당신.',sub:'조직은 즉각적인 실행을 원했지만, 당신은 기준을 세우고 체계를 잡아야 직성이 풀립니다.'},
+    'I_R':{icon:'🕯️',title:'전략을 요구받으면서 현장을 지켜온 당신.',sub:'조직은 분석과 전략을 원했지만, 당신은 직접 실행하며 결과를 만들어왔습니다.'},
+    'I_A':{icon:'🕯️',title:'논리를 요구받으면서 새로운 것을 상상해온 당신.',sub:'조직은 데이터와 분석을 원했지만, 당신 안에는 창의와 감각이 먼저 움직입니다.'},
+    'I_S':{icon:'🕯️',title:'전략을 요구받으면서도 사람을 먼저 본 당신.',sub:'조직은 전략적 사고를 원했지만, 당신은 팀원을 살피며 방향을 잡아왔습니다.'},
+    'I_E':{icon:'🕯️',title:'분석을 요구받았지만 당신은 결단하고 달리는 사람입니다.',sub:'조직은 신중한 분석을 원했지만, 당신은 결단하고 실행하는 것이 더 자연스럽습니다.'},
+    'I_C':{icon:'🕯️',title:'전략을 요구받으면서 체계로 버텨온 당신.',sub:'조직은 방향 설계를 원했지만, 당신은 정확한 기준과 체계로 팀을 지켜왔습니다.'},
+    'A_R':{icon:'🕯️',title:'혁신을 요구받으면서 완성으로 증명해온 당신.',sub:'조직은 창의와 새로운 시도를 원했지만, 당신은 끝까지 완수하며 결과를 만들어왔습니다.'},
+    'A_I':{icon:'🕯️',title:'창의를 요구받으면서 이해부터 하려 했던 당신.',sub:'조직은 새로운 시도를 원했지만, 당신은 깊이 이해하고 분석해야 움직이는 사람입니다.'},
+    'A_S':{icon:'🕯️',title:'혁신을 요구받으면서 사람을 연결해온 당신.',sub:'조직은 창의와 혁신을 원했지만, 당신은 사람을 먼저 연결하며 팀을 지켜왔습니다.'},
+    'A_E':{icon:'🕯️',title:'창의를 요구받았지만 당신은 더 높은 목표로 달리는 사람.',sub:'조직은 새로운 아이디어를 원했지만, 당신은 목표를 설정하고 팀을 이끄는 것이 더 자연스럽습니다.'},
+    'A_C':{icon:'🕯️',title:'창의를 요구받으면서도 흔들리지 않고 버텨온 당신.',sub:'조직은 새로운 시도를 원했지만, 당신은 체계와 기준으로 팀을 안정시켜왔습니다.'},
+    'S_R':{icon:'🕯️',title:'따뜻함을 요구받으면서 행동으로 증명해온 당신.',sub:'조직은 소통과 관계를 원했지만, 당신은 말보다 실행으로 팀원에게 신뢰를 줘왔습니다.'},
+    'S_I':{icon:'🕯️',title:'관계를 요구받으면서 논리로 방향을 잡아온 당신.',sub:'조직은 따뜻한 소통을 원했지만, 당신은 분석과 근거로 팀의 방향을 지켜왔습니다.'},
+    'S_A':{icon:'🕯️',title:'화합을 요구받으면서도 새로운 방식을 찾아온 당신.',sub:'조직은 팀 화합을 원했지만, 당신은 창의적 에너지로 팀에 활력을 불어넣어왔습니다.'},
+    'S_E':{icon:'🕯️',title:'관계를 요구받으면서 목표를 향해 달려온 당신.',sub:'조직은 팀 화합을 원했지만, 당신은 목표를 향해 팀을 이끌어왔습니다.'},
+    'S_C':{icon:'🕯️',title:'따뜻함을 요구받으면서 체계로 팀을 지킨 당신.',sub:'조직은 관계와 소통을 원했지만, 당신은 일관된 기준으로 팀에 안정감을 줘왔습니다.'},
+    'E_R':{icon:'🕯️',title:'성과를 요구받으면서 현장을 지켜온 당신.',sub:'조직은 높은 목표와 성과를 원했지만, 당신은 현장에서 직접 결과를 만들어왔습니다.'},
+    'E_I':{icon:'🕯️',title:'빠른 성과를 요구받으면서 신중하게 버텨온 당신.',sub:'조직은 빠른 추진을 원했지만, 당신은 먼저 이해하고 분석해야 움직이는 사람입니다.'},
+    'E_A':{icon:'🕯️',title:'성과를 요구받으면서도 더 나은 방법을 찾아온 당신.',sub:'조직은 목표 달성을 원했지만, 당신은 더 좋은 방식을 찾고 싶었습니다.'},
+    'E_S':{icon:'🕯️',title:'성과를 요구받으면서 사람을 먼저 본 당신.',sub:'조직은 목표 달성을 원했지만, 당신은 팀원을 살피며 버텨왔습니다.'},
+    'E_C':{icon:'🕯️',title:'빠른 추진을 요구받으면서 체계를 먼저 챙긴 당신.',sub:'조직은 빠른 결단을 원했지만, 당신은 기준을 세우고 체계를 잡으며 버텨왔습니다.'},
+    'C_R':{icon:'🕯️',title:'체계를 요구받으면서 현장에서 직접 뛰어온 당신.',sub:'조직은 프로세스 정비를 원했지만, 당신은 직접 실행하며 결과를 만들어왔습니다.'},
+    'C_I':{icon:'🕯️',title:'안정을 요구받으면서 깊이 탐구해온 당신.',sub:'조직은 체계적인 운영을 원했지만, 당신은 더 나은 방법을 찾기 위해 탐구하며 버텨왔습니다.'},
+    'C_A':{icon:'🕯️',title:'규칙을 요구받으면서도 새로운 방식을 꿈꿔온 당신.',sub:'조직은 기준과 절차를 원했지만, 당신은 더 좋은 방식을 찾고 싶었습니다.'},
+    'C_S':{icon:'🕯️',title:'체계를 요구받으면서 사람을 먼저 챙긴 당신.',sub:'조직은 프로세스와 정확한 운영을 원했지만, 당신은 팀원의 마음을 먼저 살펴왔습니다.'},
+    'C_E':{icon:'🕯️',title:'안정을 요구받으면서 더 높이 달리고 싶었던 당신.',sub:'조직은 체계적 운영을 원했지만, 당신은 더 높은 목표를 향해 달리고 싶은 사람입니다.'}
+  };
+
+  var key=orgTypeId+'_'+myTypeId;
+  var base=BASE[key]||BASE['R_R'];
+
+  /* ── Q2(실제 업무)를 반영한 추가 문장 ── */
+  var addMsg='';
+  if(allMatch){
+    /* 세 가지 모두 일치 */
+    addMsg='조직이 원하는 것, 실제로 하는 일, 그리고 본래의 당신까지 모두 같은 방향을 가리키고 있습니다.';
+  } else if(orgMatch){
+    /* 조직 기대 = 진짜 나, 但 실제 업무는 다름 */
+    addMsg='다만 요즘 실제로는 '+tName[doTypeId]+'('+tNick[doTypeId]+') 쪽 업무에 더 많은 시간을 쏟고 있군요. 본모습과 다른 일을 하고 있는 건 아닌지 돌아볼 시간이 필요할 수 있습니다.';
+  } else if(doMatch){
+    /* 실제 업무 = 진짜 나, 但 조직 기대는 다름 */
+    addMsg='실제로 하는 일은 당신다운 방향이지만, 조직이 기대하는 모습('+tName[orgTypeId]+')과는 차이가 있습니다. 지금 하는 방식이 조직에 어떻게 보이는지 한번 점검해보세요.';
+  } else {
+    /* 세 가지 모두 다름 */
+    addMsg='조직이 기대하는 것('+tName[orgTypeId]+'), 실제로 시간을 쏟는 일('+tName[doTypeId]+'), 그리고 본래의 당신('+tName[myTypeId]+')이 모두 다른 방향을 가리키고 있습니다. 지금 이 세 가지를 정렬할 시간이 필요합니다.';
+  }
+
+  return {
+    icon: base.icon,
+    title: base.title,
+    sub: base.sub+(addMsg?' '+addMsg:'')
+  };
+}
+
+function goResult(){
+  /* J1 점수 계산 */
+  j1Scores={R:0,I:0,A:0,S:0,E:0,C:0};
+  for(var i=0;i<J1Q.length;i++){
+    if(j1Answers[i]===null||j1Answers[i]===undefined) continue;
+    var q=J1Q[i];var ch=q.choices[j1Answers[i]];
+    if(!ch) continue;
+    if(q.type==='MULTI6'){
+      if(ch.holland) j1Scores[ch.holland]+=(ch.score||0);
+    } else {
+      j1Scores[q.holland]+=(ch.score||0);
+    }
+  }
+  /* 주 유형 결정 */
+  var topId='R';var topScore=-1;var secId='I';var secScore=-1;
+  ['R','I','A','S','E','C'].forEach(function(k){
+    if(j1Scores[k]>topScore){secScore=topScore;secId=topId;topScore=j1Scores[k];topId=k;}
+    else if(j1Scores[k]>secScore){secScore=j1Scores[k];secId=k;}
+  });
+  for(var ti=0;ti<TYPES.length;ti++) if(TYPES[ti].id===topId){finalType=TYPES[ti];break;}
+  if(!finalType) finalType=TYPES[0];
+  var secType=null;
+  for(var si=0;si<TYPES.length;si++) if(TYPES[si].id===secId){secType=TYPES[si];break;}
+
+  /* 체크인 갭 */
+  var orgTypeId=ciAnswers[0]||'R';
+  var doTypeId=ciAnswers[1]||'R';
+  finalWord=getWordMsg(orgTypeId, doTypeId, finalType.id);
+
+  renderResult();
+  submitResult();
+  showPage('result');
+}
+
+/* ══ 결과 렌더 ══ */
+function renderResult(){
+  var t=finalType; var w=finalWord;
+
+  /* ─ 나를 위한 한마디 ─ */
+  document.getElementById('r-word').innerHTML=
+    '<div class="word-card" style="background:linear-gradient(135deg,'+t.bg+',#FFFFFF);border:2px solid '+t.color+'30">'+
+    '<span class="word-icon">'+w.icon+'</span>'+
+    '<div class="word-title">'+w.title+'</div>'+
+    '<div class="word-sub">'+w.sub+'</div></div>';
+
+  /* ─ 리포트 헤더 ─ */
+  document.getElementById('r-icon').textContent=t.icon;
+  document.getElementById('r-kicker').style.color=t.color;
+  document.getElementById('r-name').textContent=t.name;
+  document.getElementById('r-sub').textContent=t.sub;
+  document.getElementById('r-sub').style.color=t.color;
+  var badge=document.getElementById('r-badge');
+  badge.textContent='Holland '+t.id+' · '+t.kw;
+  badge.style.background=t.bg; badge.style.color=t.color;
+
+  /* ─ SECTION 1: 임팩트 한 문장 ─ */
+  document.getElementById('r-impact').innerHTML=
+    '<div style="font-size:22px;font-weight:800;color:'+t.color+';line-height:1.5;text-align:center;padding:1.5rem;background:'+t.bg+';border-radius:var(--rlg);border:2px solid '+t.color+'30;margin-bottom:.5rem">'+
+    '"'+t.impact+'"</div>';
+
+  /* ─ SECTION 2: 이런 팀장입니다 (행동 묘사 + 특성 설명) ─ */
+  var bHTML='<div style="margin-bottom:1.1rem">';
+  for(var i=0;i<t.behaviors.length;i++){
+    bHTML+='<div style="display:flex;align-items:flex-start;gap:12px;padding:.8rem 0;border-bottom:1px solid var(--line)">'+
+      '<span style="color:'+t.color+';font-weight:800;font-size:15px;flex-shrink:0;margin-top:3px">✓</span>'+
+      '<span style="font-size:16px;color:var(--ink);line-height:1.7">'+t.behaviors[i]+'</span></div>';
+  }
+  bHTML+='</div>';
+  if(t.traits){
+    bHTML+='<div style="background:'+t.bg+';border-radius:var(--rmd);padding:1.1rem 1.3rem;margin-top:.25rem">'+
+      '<div style="font-size:13px;font-weight:800;color:'+t.color+';margin-bottom:.6rem;letter-spacing:.05em">흥미 특성</div>'+
+      '<div style="font-size:14px;color:var(--ink);line-height:1.8;margin-bottom:.75rem">'+t.traits.interest+'</div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">'+
+        '<div style="background:rgba(255,255,255,.7);border-radius:var(--rsm);padding:.7rem .9rem">'+
+          '<div style="font-size:11px;font-weight:800;color:var(--sub);margin-bottom:4px">성격</div>'+
+          '<div style="font-size:13px;color:var(--ink);line-height:1.6">'+t.traits.personality+'</div>'+
+        '</div>'+
+        '<div style="background:rgba(255,255,255,.7);border-radius:var(--rsm);padding:.7rem .9rem">'+
+          '<div style="font-size:11px;font-weight:800;color:var(--sub);margin-bottom:4px">중시하는 가치</div>'+
+          '<div style="font-size:13px;color:var(--ink);line-height:1.6">'+t.traits.value+'</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }
+  document.getElementById('r-behaviors').innerHTML=bHTML;
+
+  /* ─ SECTION 3: 빛나는 순간 / 조심할 순간 ─ */
+  document.getElementById('r-shine').innerHTML=
+    '<div style="background:'+t.bg+';border-radius:var(--rlg);padding:1.25rem 1.4rem;border-left:4px solid '+t.color+';margin-bottom:12px">'+
+      '<div style="font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:'+t.color+';margin-bottom:.5rem">✨ 이럴 때 빛납니다</div>'+
+      '<div style="font-size:16px;color:var(--ink);line-height:1.8">'+t.shine+'</div>'+
+    '</div>'+
+    '<div style="background:#FFF8F0;border-radius:var(--rlg);padding:1.25rem 1.4rem;border-left:4px solid #E8A020">'+
+      '<div style="font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#C8860A;margin-bottom:.5rem">🔑 함께 키우면 더 강해집니다</div>'+
+      '<div style="font-size:16px;color:var(--ink);line-height:1.8">'+t.watch+'</div>'+
+    '</div>';
+
+  /* ─ Holland 육각형 ─ */
+  drawHex();
+
+  /* ─ 6유형 맵: 소형 그리드만 (내 유형 강조 없이 단순하게) ─ */
+  var mapHTML='<p style="font-size:14px;color:var(--sub);margin-bottom:1rem;line-height:1.75">Holland 이론에서 인접한 유형일수록 성격이 유사합니다. 내 유형을 중심으로 어떤 유형이 가까운지 확인해보세요.</p>';
+  mapHTML+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:.75rem">';
+  for(var ti=0;ti<TYPES.length;ti++){
+    var tp=TYPES[ti]; var isMe=(tp.id===t.id);
+    mapHTML+='<div style="border-radius:var(--rlg);padding:1rem;border:2px solid '+(isMe?tp.color:'var(--line)')+';background:'+(isMe?tp.bg:'var(--white)')+';text-align:center;box-shadow:'+(isMe?'0 4px 16px '+tp.color+'30':'none')+'">';
+    mapHTML+='<div style="font-size:26px;margin-bottom:6px">'+tp.icon+'</div>';
+    mapHTML+='<div style="font-size:14px;font-weight:800;color:'+(isMe?tp.color:'var(--ink)')+'">'+tp.name;
+    if(isMe) mapHTML+=' <span style="font-size:10px;background:'+tp.color+';color:#fff;padding:1px 7px;border-radius:100px;vertical-align:middle">나</span>';
+    mapHTML+='</div>';
+    mapHTML+='<div style="font-size:12px;font-weight:700;color:'+(isMe?tp.color:'var(--sub)')+';margin-top:2px">'+tp.sub+'</div>';
+    mapHTML+='<div style="font-size:11px;color:var(--sub);margin-top:2px;opacity:.7">'+tp.kw+'</div></div>';
+  }
+  mapHTML+='</div>';
+  document.getElementById('r-type-map').innerHTML=mapHTML;
+
+  /* ─ 교육 탭 초기화 ─ */
+  eduMode='strength';
+  switchEdu('strength');
+
+  submitResult();
+}
+
+
+function switchEdu(mode){
+  eduMode=mode;
+  document.getElementById('tab-str').classList.toggle('act',mode==='strength');
+  document.getElementById('tab-gap').classList.toggle('act',mode==='gap');
+  var t=finalType;
+  var eduArr=mode==='strength'?t.strengthEdu:t.gapEdu;
+  var descText=mode==='strength'?
+    '이미 잘 하는 것을 더 발전시키고 싶다면 아래 3가지 교육이 당신의 강점을 한 단계 높여줍니다.':
+    '균형 잡힌 리더로 성장하고 싶다면 아래 3가지 교육이 부족한 부분을 채워줍니다.';
+  document.getElementById('edu-tab-desc').textContent=descText;
+  var eduHTML='';
+  for(var i=0;i<eduArr.length;i++){
+    var rec=eduArr[i]; var skill=null;
+    for(var si=0;si<SKILLS.length;si++) if(SKILLS[si].id===rec.skillId){skill=SKILLS[si];break;}
+    if(!skill) continue;
+    eduHTML+='<div class="edu-card">'+
+      '<div class="edu-ico" style="background:'+skill.bg+'">'+skill.icon+'</div>'+
+      '<div class="edu-body">'+
+        '<div class="edu-tag" style="color:'+skill.color+'">'+skill.name+'</div>'+
+        '<div class="edu-name">'+skill.course+'</div>'+
+        '<div class="edu-why">'+rec.why+'</div>'+
+      '</div></div>';
+  }
+  document.getElementById('r-edu').innerHTML=eduHTML;
+}
+
+/* ══ Holland 육각형 ══ */
+function drawHex(){
+  var cv=document.getElementById('hex-cv');if(!cv||!finalType) return;
+  var ctx=cv.getContext('2d');
+  var W=cv.width,H=cv.height,cx=W/2,cy=H/2+10,R=Math.min(W,H)*0.28;
+  ctx.clearRect(0,0,W,H);
+  var order=['R','I','A','S','E','C'];
+  var labels=['현실형\n사물/실행','탐구형\n사고/분析','예술형\n예술/창조','사회형\n사교/봉사','진취형\n권력/리더','관습형\n질서/사무'];
+  var tColors={R:'#4CAF7D',I:'#9C6FD6',A:'#E05C8A',S:'#2196C4',E:'#E8A020',C:'#607D8B'};
+  var maxScore=16;var n=6;
+  function ang(i){return (Math.PI*2*i/n)-Math.PI/2;}
+  for(var r=1;r<=3;r++){
+    ctx.beginPath();
+    for(var i=0;i<n;i++){var a=ang(i);var rv=R*r/3;i===0?ctx.moveTo(cx+rv*Math.cos(a),cy+rv*Math.sin(a)):ctx.lineTo(cx+rv*Math.cos(a),cy+rv*Math.sin(a));}
+    ctx.closePath();ctx.strokeStyle='rgba(26,24,48,.07)';ctx.lineWidth=1;ctx.stroke();
+  }
+  for(var i=0;i<n;i++){var a=ang(i);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.strokeStyle='rgba(26,24,48,.07)';ctx.lineWidth=1;ctx.stroke();}
+  ctx.beginPath();
+  for(var i=0;i<n;i++){var tid=order[i];var sc=j1Scores[tid]||0;var a=ang(i);var rv=sc>0?Math.max(R*sc/maxScore,R*.06):R*.04;i===0?ctx.moveTo(cx+rv*Math.cos(a),cy+rv*Math.sin(a)):ctx.lineTo(cx+rv*Math.cos(a),cy+rv*Math.sin(a));}
+  ctx.closePath();ctx.fillStyle='rgba(124,111,247,.12)';ctx.fill();ctx.strokeStyle=finalType.color;ctx.lineWidth=2.5;ctx.stroke();
+  for(var i=0;i<n;i++){var tid=order[i];var sc=j1Scores[tid]||0;var a=ang(i);var rv=sc>0?Math.max(R*sc/maxScore,R*.06):R*.04;ctx.beginPath();ctx.arc(cx+rv*Math.cos(a),cy+rv*Math.sin(a),sc>0?6:3,0,Math.PI*2);ctx.fillStyle=sc>0?tColors[tid]:'rgba(26,24,48,.12)';ctx.fill();if(sc>0){ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();}}
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  for(var i=0;i<n;i++){var tid=order[i];var a=ang(i);var lr=R+46;var lx=cx+lr*Math.cos(a);var ly=cy+lr*Math.sin(a);var parts=labels[i].split('\n');var isMe=(tid===finalType.id);ctx.font=(isMe?'800':'600')+' 13px Noto Sans KR,sans-serif';ctx.fillStyle=isMe?tColors[tid]:'rgba(26,24,48,.5)';ctx.fillText(parts[0],lx,ly-(parts.length>1?9:0));if(parts[1]){ctx.font=(isMe?'700':'400')+' 10px Noto Sans KR,sans-serif';ctx.fillStyle=isMe?tColors[tid]:'rgba(26,24,48,.38)';ctx.fillText(parts[1],lx,ly+9);}var sc=j1Scores[tid]||0;if(sc>0){ctx.font='700 11px Noto Sans KR,sans-serif';ctx.fillStyle=tColors[tid];ctx.fillText(sc.toFixed(1),lx,ly+(parts.length>1?22:14));}}
+  var second='';var sscore=-1;
+  for(var i=0;i<order.length;i++){if(order[i]!==finalType.id&&(j1Scores[order[i]]||0)>sscore){sscore=j1Scores[order[i]];second=order[i];}}
+  var secType=null;for(var ti=0;ti<TYPES.length;ti++) if(TYPES[ti].id===second){secType=TYPES[ti];break;}
+  document.getElementById('hex-cap').innerHTML='<span style="font-size:15px;color:var(--sub)">주 유형&nbsp;&nbsp;</span><strong style="font-size:17px;color:'+finalType.color+'">'+finalType.name+'</strong>'+(secType?'<span style="color:var(--line)"> &nbsp;|&nbsp; </span><span style="font-size:15px;color:var(--sub)">보조 유형&nbsp;&nbsp;</span><strong style="font-size:17px;color:'+secType.color+'">'+secType.name+'</strong>':'');
+}
+
+/* ══ SUBMIT ══ */
+async function submitResult(){
+  if(GAS_URL.indexOf('여기에')!==-1||!finalType) return;
+  var t=finalType;
+  var edu1='';var edu2='';
+  if(t.strengthEdu[0]){for(var si=0;si<SKILLS.length;si++) if(SKILLS[si].id===t.strengthEdu[0].skillId){edu1=SKILLS[si].name;break;}}
+  if(t.gapEdu[0]){for(var si=0;si<SKILLS.length;si++) if(SKILLS[si].id===t.gapEdu[0].skillId){edu2=SKILLS[si].name;break;}}
+  var orgTypeName='';for(var ti=0;ti<TYPES.length;ti++) if(TYPES[ti].id===ciAnswers[0]){orgTypeName=TYPES[ti].name;break;}
+  var payload={name:userName,dept:userDept,typename:t.name,org_type:orgTypeName,
+    word_pattern:ciAnswers[0]===t.id?'일치':'갭',edu_strength:edu1,edu_gap:edu2};
+  try{await fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});}catch(e){}
+}
+
+/* ══ DL/PRINT ══ */
+function dlTxt(){
+  if(!finalType) return;
+  var t=finalType; var w=finalWord;
+
+  /* 결과를 HTML 파일로 저장 — 브라우저에서 언제든 다시 열 수 있음 */
+  var scoreStr='R:'+j1Scores.R.toFixed(1)+' / I:'+j1Scores.I.toFixed(1)+' / A:'+j1Scores.A.toFixed(1)+
+    ' / S:'+j1Scores.S.toFixed(1)+' / E:'+j1Scores.E.toFixed(1)+' / C:'+j1Scores.C.toFixed(1);
+
+  /* 강점/보완 교육 텍스트 */
+  function eduNames(arr){
+    return arr.map(function(r){
+      for(var i=0;i<SKILLS.length;i++) if(SKILLS[i].id===r.skillId) return SKILLS[i].name;
+      return r.skillId;
+    }).join(' · ');
+  }
+
+  var html=[
+    '<!DOCTYPE html><html lang="ko"><head>',
+    '<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">',
+    '<title>나는 어떤 팀장인가?</title>',
+    '<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;900&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">',
+    '<style>',
+    '*{box-sizing:border-box;margin:0;padding:0}',
+    'body{font-size:17px;font-weight:500;font-family:"Noto Sans KR",sans-serif;background:#FBF9F6;color:#1A1830;max-width:680px;margin:0 auto;padding:2rem 1.4rem 4rem;line-height:1.8}',
+    '.tag{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#7C6FF7;margin-bottom:.8rem}',
+    '.card{background:#fff;border-radius:24px;padding:1.75rem;margin-bottom:1.25rem;border:1px solid rgba(26,24,48,.08);box-shadow:0 3px 18px rgba(26,24,48,.06)}',
+    '.word-card{background:linear-gradient(135deg,'+t.bg+',#fff);border:2px solid '+t.color+'30;border-radius:24px;padding:2rem;margin-bottom:1.25rem;text-align:center}',
+    '.word-icon{font-size:48px;margin-bottom:.8rem}',
+    '.word-title{font-family:"Gowun Batang",serif;font-size:22px;font-weight:700;margin-bottom:.7rem}',
+    '.word-sub{font-size:17px;color:#6B6880;line-height:1.9}',
+    '.hero{text-align:center;padding:1.5rem 0 2rem}',
+    '.hero-icon{font-size:60px;margin-bottom:.75rem}',
+    '.hero-kicker{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:'+t.color+';margin-bottom:.4rem}',
+    '.hero-name{font-family:"Gowun Batang",serif;font-size:42px;font-weight:700;margin-bottom:.4rem}',
+    '.hero-sub{font-size:18px;font-weight:700;color:'+t.color+';margin-bottom:.7rem}',
+    '.badge{display:inline-block;background:'+t.bg+';color:'+t.color+';font-size:13px;font-weight:700;padding:5px 16px;border-radius:100px}',
+    '.impact{font-size:20px;font-weight:800;color:'+t.color+';text-align:center;padding:1.25rem;background:'+t.bg+';border-radius:14px;margin-bottom:1.25rem;border:2px solid '+t.color+'30}',
+    '.sec-lbl{font-size:16px;font-weight:800;color:#1A1830;padding-bottom:.5rem;border-bottom:3px solid #7C6FF7;display:inline-block;margin-bottom:.9rem}',
+    '.beh-item{display:flex;gap:12px;padding:.75rem 0;border-bottom:1px solid rgba(26,24,48,.07)}',
+    '.beh-check{color:'+t.color+';font-weight:800;font-size:15px;flex-shrink:0;margin-top:3px}',
+    '.beh-text{font-size:16px;color:#1A1830;line-height:1.7}',
+    '.trait-box{background:'+t.bg+';border-radius:12px;padding:1rem 1.2rem;margin-top:.75rem}',
+    '.trait-lbl{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:'+t.color+';margin-bottom:.5rem}',
+    '.trait-text{font-size:16px;color:#1A1830;line-height:1.8}',
+    '.trait-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.75rem}',
+    '.trait-mini{background:rgba(255,255,255,.7);border-radius:8px;padding:.65rem .9rem}',
+    '.trait-mini-lbl{font-size:11px;font-weight:800;color:#7A7895;margin-bottom:3px}',
+    '.trait-mini-val{font-size:13px;color:#1A1830;line-height:1.6}',
+    '.shine-box{background:'+t.bg+';border-radius:14px;padding:1.2rem 1.4rem;border-left:4px solid '+t.color+';margin-bottom:10px}',
+    '.shine-lbl{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:'+t.color+';margin-bottom:.4rem}',
+    '.watch-box{background:#FFF8E1;border-radius:14px;padding:1.2rem 1.4rem;border-left:4px solid #E8A020}',
+    '.watch-lbl{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#C8860A;margin-bottom:.4rem}',
+    '.shine-text,.watch-text{font-size:15px;color:#1A1830;line-height:1.8}',
+    '.score-row{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;text-align:center;margin-top:.5rem}',
+    '.score-item .sc-code{font-size:13px;font-weight:800;color:'+t.color+'}',
+    '.score-item .sc-val{font-size:20px;font-weight:900}',
+    '.edu-tab{display:inline-block;padding:8px 18px;border-radius:100px;font-size:13px;font-weight:700;margin:0 4px 8px 0;background:'+t.bg+';color:'+t.color+';border:1.5px solid '+t.color+'30}',
+    '.edu-card{background:#fff;border:1.5px solid rgba(26,24,48,.08);border-radius:16px;padding:1.2rem;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start}',
+    '.edu-ico{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}',
+    '.edu-tag{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}',
+    '.edu-name{font-size:17px;font-weight:700;color:#1A1830;margin-bottom:4px}',
+    '.edu-why{font-size:16px;color:#6B6880;line-height:1.65}',
+    '.footer{text-align:center;font-size:13px;color:#7A7895;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(26,24,48,.08)}',
+    '@media print{body{padding:1rem}@page{margin:10mm}}',
+    '</style></head><body>',
+
+    /* 저장 안내 */
+    '<div style="background:#EAE7FF;border-radius:14px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:14px;color:#5B4FCF;font-weight:600;text-align:center">',
+    '이 파일을 저장해두면 언제든 다시 열어볼 수 있습니다 🔖',
+    '</div>',
+
+    /* 메타 */
+    '<div style="font-size:13px;color:#7A7895;margin-bottom:1.5rem">',
+    userName+' · '+userDept+' · '+new Date().toLocaleDateString('ko-KR'),
+    '</div>',
+
+    /* 한마디 */
+    '<div class="word-card">',
+    '<div class="word-icon">'+w.icon+'</div>',
+    '<div class="word-title">'+w.title+'</div>',
+    '<div class="word-sub">'+w.sub+'</div>',
+    '</div>',
+
+    /* 히어로 */
+    '<div class="hero">',
+    '<div class="hero-icon">'+t.icon+'</div>',
+    '<div class="hero-kicker">나는 어떤 유형인가</div>',
+    '<div class="hero-name">'+t.name+'</div>',
+    '<div class="hero-sub">'+t.sub+'</div>',
+    '<span class="badge">Holland '+t.code+' · '+t.kw+'</span>',
+    '</div>',
+
+    /* 임팩트 */
+    '<div class="impact">'+t.impact+'</div>',
+
+    /* 나의 모습 */
+    '<div class="card">',
+    '<div class="sec-lbl">나의 모습에 가깝습니다</div>',
+    (t.behaviors||[]).map(function(b){
+      return '<div class="beh-item"><span class="beh-check">✓</span><span class="beh-text">'+b+'</span></div>';
+    }).join(''),
+    t.traits ? '<div class="trait-box"><div class="trait-lbl">흥미 특성</div><div class="trait-text">'+t.traits.interest+'</div><div class="trait-grid"><div class="trait-mini"><div class="trait-mini-lbl">성격</div><div class="trait-mini-val">'+t.traits.personality+'</div></div><div class="trait-mini"><div class="trait-mini-lbl">중시하는 가치</div><div class="trait-mini-val">'+t.traits.value+'</div></div></div></div>' : '',
+    '</div>',
+
+    /* 상황별 인사이트 */
+    '<div class="card">',
+    '<div class="sec-lbl">상황별 인사이트</div>',
+    '<div class="shine-box"><div class="shine-lbl">✨ 이럴 때 빛납니다</div><div class="shine-text">'+(t.shine||'')+'</div></div>',
+    '<div class="watch-box" style="margin-top:10px"><div class="watch-lbl">🔑 함께 키우면 더 강해집니다</div><div class="watch-text">'+(t.watch||'')+'</div></div>',
+    '</div>',
+
+    /* 점수 */
+    '<div class="card">',
+    '<div class="sec-lbl">흥미 프로파일</div>',
+    '<div class="score-row">',
+    '<div class="score-item"><div class="sc-code" style="color:#4CAF7D">R</div><div class="sc-val">'+j1Scores.R.toFixed(1)+'</div><div style="font-size:11px;color:#7A7895">현실형</div></div>',
+    '<div class="score-item"><div class="sc-code" style="color:#9C6FD6">I</div><div class="sc-val">'+j1Scores.I.toFixed(1)+'</div><div style="font-size:11px;color:#7A7895">탐구형</div></div>',
+    '<div class="score-item"><div class="sc-code" style="color:#E05C8A">A</div><div class="sc-val">'+j1Scores.A.toFixed(1)+'</div><div style="font-size:11px;color:#7A7895">예술형</div></div>',
+    '<div class="score-item"><div class="sc-code" style="color:#2196C4">S</div><div class="sc-val">'+j1Scores.S.toFixed(1)+'</div><div style="font-size:11px;color:#7A7895">사회형</div></div>',
+    '<div class="score-item"><div class="sc-code" style="color:#E8A020">E</div><div class="sc-val">'+j1Scores.E.toFixed(1)+'</div><div style="font-size:11px;color:#7A7895">진취형</div></div>',
+    '<div class="score-item"><div class="sc-code" style="color:#607D8B">C</div><div class="sc-val">'+j1Scores.C.toFixed(1)+'</div><div style="font-size:11px;color:#7A7895">관습형</div></div>',
+    '</div></div>',
+
+    /* 강점 강화 교육 */
+    '<div class="card">',
+    '<div class="sec-lbl">나를 위한 교육 추천</div>',
+    '<div style="margin-bottom:1rem">',
+    '<span class="edu-tab">💪 강점을 더 키우고 싶다</span>',
+    (t.strengthEdu||[]).map(function(r){
+      var sk=null; for(var i=0;i<SKILLS.length;i++) if(SKILLS[i].id===r.skillId){sk=SKILLS[i];break;}
+      if(!sk) return '';
+      return '<div class="edu-card"><div class="edu-ico" style="background:'+sk.bg+'">'+sk.icon+'</div><div><div class="edu-tag" style="color:'+sk.color+'">'+sk.name+'</div><div class="edu-name">'+sk.course+'</div><div class="edu-why">'+r.why+'</div></div></div>';
+    }).join(''),
+    '</div>',
+    '<div>',
+    '<span class="edu-tab">🌱 부족한 부분을 채우고 싶다</span>',
+    (t.gapEdu||[]).map(function(r){
+      var sk=null; for(var i=0;i<SKILLS.length;i++) if(SKILLS[i].id===r.skillId){sk=SKILLS[i];break;}
+      if(!sk) return '';
+      return '<div class="edu-card"><div class="edu-ico" style="background:'+sk.bg+'">'+sk.icon+'</div><div><div class="edu-tag" style="color:'+sk.color+'">'+sk.name+'</div><div class="edu-name">'+sk.course+'</div><div class="edu-why">'+r.why+'</div></div></div>';
+    }).join(''),
+    '</div>',
+    '</div>',
+
+    '<div class="footer">Holland RIASEC 기반 팀장 Self Test — 나는 어떤 팀장인가?</div>',
+    '</body></html>'
+  ].join('\n');
+
+  var filename = '나는어떤팀장인가_'+userName+'_결과.html';
+  try {
+    var blob = new Blob([html], {type:'text/html;charset=utf-8'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href=url; a.download=filename;
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},200);
+  } catch(e) {
+    var w2=window.open('','_blank');
+    if(w2){w2.document.write(html);w2.document.title=filename;}
+  }
+}
+
+function doPrint(){
+  if(!finalType) return;
+
+  /* 결과 페이지 전체를 인쇄 — 다른 페이지는 숨기고 pg-result만 표시 */
+  var style = document.getElementById('__printStyle');
+  if(style) style.parentNode.removeChild(style);
+
+  var s = document.createElement('style');
+  s.id = '__printStyle';
+  s.innerHTML = [
+    '@media print{',
+    '  body > .shell > .page { display:none !important; }',
+    '  body > .shell > .page#pg-result { display:block !important; }',
+    '  .btn-p, .btn-ghost, .btn-mint, .edu-tabs { display:none !important; }',
+    '  .shell { padding:0 !important; }',
+    '  .hex-card { break-inside:avoid; }',
+    '  .edu-card { break-inside:avoid; }',
+    '  .type-detail { break-inside:avoid; }',
+    '  @page { margin:15mm; size:A4; }',
+    '}'
+  ].join('');
+  document.head.appendChild(s);
+
+  setTimeout(function(){
+    window.print();
+    setTimeout(function(){
+      var el=document.getElementById('__printStyle');
+      if(el) el.parentNode.removeChild(el);
+    },2000);
+  },300);
+}
+
+function retake(){
+  initState();ciCur=0;j1Cur=0;finalType=null;finalWord=null;finalWorryResult=null;eduMode='strength';
+  document.getElementById('i-name').value='';document.getElementById('i-dept').value='';
+  showPage('intro');
+}
+
+/* ══ ADMIN ══ */
+var authed=false;
+function admLogin(){
+  if(document.getElementById('adm-pw').value===ADMIN_PW){
+    authed=true;
+    document.getElementById('adm-gate').style.display='none';
+    document.getElementById('adm-dash').style.display='block';
+    loadAdmData();
+  } else {document.getElementById('adm-err').style.display='block';}
+}
+function loadAdmData(){
+  var notice=document.getElementById('gas-n');
+  if(!notice) return;
+
+  /* GAS URL 미설정 */
+  if(!GAS_URL || GAS_URL.indexOf('여기에')!==-1){
+    notice.className='gas-n gn-warn';
+    notice.innerHTML='⚠️ Google Sheets 미연결 — index.html 상단의 GAS_URL 변수에 웹앱 URL을 입력하세요.';
+    allData=[];renderAdm();return;
+  }
+
+  notice.className='gas-n gn-info';
+  notice.innerHTML='<span class="spinner"></span>데이터 불러오는 중...';
+
+  var cb='_cb_'+Date.now();
+  var sc=document.createElement('script');
+  sc.onerror=function(){
+    cleanup();
+    notice.className='gas-n gn-warn';
+    notice.innerHTML=[
+      '⚠️ 데이터 로드 실패. 아래 사항을 확인해주세요.',
+      '<ul style="margin-top:8px;padding-left:18px;font-size:13px;line-height:2">',
+      '<li>Apps Script → 배포 → 액세스 권한이 <b>"모든 사용자(익명 포함)"</b>인지 확인</li>',
+      '<li>GAS_URL이 정확한 웹앱 URL인지 확인 (/exec 로 끝나야 함)</li>',
+      '<li>배포 후 URL을 새로 복사했는지 확인 (수정 후 재배포 필요)</li>',
+      '</ul>'
+    ].join('');
+    allData=[];renderAdm();
+  };
+
+  var timer=setTimeout(function(){
+    cleanup();
+    notice.className='gas-n gn-warn';
+    notice.innerHTML=[
+      '⚠️ 응답 시간 초과. 아래 사항을 확인해주세요.',
+      '<ul style="margin-top:8px;padding-left:18px;font-size:13px;line-height:2">',
+      '<li>Apps Script → 배포 → 액세스 권한이 <b>"모든 사용자(익명 포함)"</b>인지 확인</li>',
+      '<li>GAS_URL 마지막이 <b>/exec</b> 로 끝나는지 확인</li>',
+      '<li>구글 계정으로 권한 승인을 완료했는지 확인</li>',
+      '</ul>'
+    ].join('');
+    allData=[];renderAdm();
+  },12000);
+
+  function cleanup(){
+    clearTimeout(timer);
+    delete window[cb];
+    if(sc.parentNode) sc.parentNode.removeChild(sc);
+  }
+
+  window[cb]=function(json){
+    cleanup();
+    allData=(json.rows||[]).map(function(r){
+      return{
+        name:String(r['이름']||''),
+        dept:String(r['소속']||''),
+        typename:String(r['유형']||''),
+        orgType:String(r['조직요구']||''),
+        wordPattern:String(r['한마디패턴']||''),
+        eduStrength:String(r['강점교육']||''),
+        eduGap:String(r['보완교육']||''),
+        date:String(r['제출시각']||'')
+      };
+    });
+    notice.className='gas-n gn-ok';
+    notice.innerHTML='✅ 연결됨 — 총 <strong>'+allData.length+'건</strong>';
+    renderAdm();
+  };
+
+  sc.src=GAS_URL+'?callback='+cb;
+  document.head.appendChild(sc);
+}
+
+function getFiltered(){
+  var d=allData.slice();
+  var dept=document.getElementById('f-dept').value;var type=document.getElementById('f-type').value;
+  if(dept) d=d.filter(function(e){return e.dept===dept;});
+  if(type) d=d.filter(function(e){return e.typename===type;});
+  return d;
+}
+function renderAdm(){
+  var data=getFiltered(),n=data.length,total=allData.length;
+  var depts=[],types=[];
+  allData.forEach(function(e){if(depts.indexOf(e.dept)<0)depts.push(e.dept);if(types.indexOf(e.typename)<0)types.push(e.typename);});
+  var ds=document.getElementById('f-dept'),dt=document.getElementById('f-type');
+  var cd=ds.value,ct=dt.value;
+  ds.innerHTML='<option value="">전체 소속</option>'+depts.filter(Boolean).map(function(d){return '<option'+(d===cd?' selected':'')+'>'+d+'</option>';}).join('');
+  dt.innerHTML='<option value="">전체 유형</option>'+types.filter(Boolean).map(function(t){return '<option'+(t===ct?' selected':'')+'>'+t+'</option>';}).join('');
+  document.getElementById('kpi-row').innerHTML=
+    '<div class="kpi"><div class="kpi-l">완료 인원</div><div class="kpi-v">'+n+'</div><div class="kpi-s">명 (전체 '+total+')</div></div>'+
+    '<div class="kpi"><div class="kpi-l">최다 유형</div><div class="kpi-v" style="font-size:17px">'+getMost(data.map(function(e){return e.typename;}))+'</div></div>'+
+    '<div class="kpi"><div class="kpi-l">역할 갭</div><div class="kpi-v" style="color:var(--peach)">'+data.filter(function(e){return e.wordPattern==='갭';}).length+'명</div></div>'+
+    '<div class="kpi"><div class="kpi-l">고민 TOP</div><div class="kpi-v" style="font-size:17px;color:var(--mint)">'+getMost(data.map(function(e){return e.worryTop;}))+'</div></div>';
+  if(!n){['adm-type-chart','adm-cat-chart'].forEach(function(id){document.getElementById(id).innerHTML='<p style="font-size:15px;color:var(--sub)">데이터가 없습니다.</p>';});document.getElementById('adm-tbl').innerHTML='<tr><td colspan="8" style="text-align:center;padding:2.5rem;color:var(--sub)">데이터가 없습니다.</td></tr>';return;}
+  var typeFreq={};data.forEach(function(e){typeFreq[e.typename]=(typeFreq[e.typename]||0)+1;});
+  var maxTF=1;Object.keys(typeFreq).forEach(function(k){if(typeFreq[k]>maxTF)maxTF=typeFreq[k];});
+  var tColors={'현실형':'#4CAF7D','탐구형':'#9C6FD6','예술형':'#E05C8A','사회형':'#2196C4','진취형':'#E8A020','관습형':'#607D8B'};
+  document.getElementById('adm-type-chart').innerHTML=Object.keys(typeFreq).map(function(k){var v=typeFreq[k];return '<div class="abr"><div class="abr-lbl">'+k+'</div><div class="abr-bg"><div class="abr-fill" style="width:'+(v/maxTF*100)+'%;background:'+(tColors[k]||'var(--p)')+'"></div></div><div class="abr-v">'+v+'명</div></div>';}).join('');
+  var catFreq={};data.forEach(function(e){if(e.worryTop)catFreq[e.worryTop]=(catFreq[e.worryTop]||0)+1;});
+  var maxCF=1;Object.keys(catFreq).forEach(function(k){if(catFreq[k]>maxCF)maxCF=catFreq[k];});
+  document.getElementById('adm-cat-chart').innerHTML=Object.keys(catFreq).map(function(k){var v=catFreq[k];return '<div class="abr"><div class="abr-lbl">'+k+'</div><div class="abr-bg"><div class="abr-fill" style="width:'+(v/maxCF*100)+'%;background:var(--mint)"></div></div><div class="abr-v">'+v+'명</div></div>';}).join('');
+  document.getElementById('adm-tbl').innerHTML=data.map(function(e){return '<tr><td><strong>'+e.name+'</strong></td><td>'+e.dept+'</td><td style="font-weight:700;color:var(--p)">'+e.typename+'</td><td style="color:var(--sub)">'+e.orgType+'</td><td style="font-weight:700;color:'+(e.wordPattern==='갭'?'var(--peach)':'var(--mint)')+'">'+e.wordPattern+'</td><td style="font-size:13px">'+e.eduStrength+'</td><td style="font-size:13px;color:var(--mint)">'+e.worryTop+'</td><td style="font-size:12px;color:var(--sub);white-space:nowrap">'+e.date+'</td></tr>';}).join('');
+}
+function getMost(arr){if(!arr.length) return '-';var f={};arr.forEach(function(v){if(v)f[v]=(f[v]||0)+1;});var b='-',m=0;Object.keys(f).forEach(function(k){if(f[k]>m){m=f[k];b=k;}});return b;}
+function dlCSV(){
+  var data=getFiltered();if(!data.length){alert('데이터가 없습니다.');return;}
+  var hdr=['이름','소속','유형','조직요구','한마디','강점교육','보완교육','고민TOP','제출일'];
+  var rows=data.map(function(e){return['"'+e.name+'"','"'+e.dept+'"','"'+e.typename+'"','"'+e.orgType+'"','"'+e.wordPattern+'"','"'+e.eduStrength+'"','"'+e.eduGap+'"','"'+e.worryTop+'"','"'+e.date+'"'];});
+  var csv='\uFEFF'+[hdr.map(function(h){return '"'+h+'"';}).join(',')].concat(rows.map(function(r){return r.join(',');})).join('\r\n');
+  var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='나는어떤팀장인가_'+new Date().toLocaleDateString('ko-KR').split('.').join('-')+'.csv';document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},3000);}
+</script>
+</body>
+</html>
